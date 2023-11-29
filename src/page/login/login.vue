@@ -25,7 +25,7 @@
             type="text"
             v-model="ruleForm.code"
           />
-          <el-image :src="'data:image/jpg;base64,'+img" @click="getCaptcha()">
+          <el-image :src="'data:image/jpg;base64,' + img" @click="getCaptcha()">
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline"></i>
             </div>
@@ -61,7 +61,7 @@
 </template> 
 
 <script>
-import { reqSubmitLogin, getCaptcha } from "@/api/login";
+import { login, getCaptcha, giteeLogin } from "@/api/login";
 import { setToken } from "@/utils/auth"; //存储token
 export default {
   name: "login",
@@ -103,12 +103,12 @@ export default {
         console.log(error.message);
       }
     },
-    
+
     //登录按钮
     async submitForm() {
       this.loginLoading = true;
       try {
-        const res = await reqSubmitLogin(this.ruleForm);
+        const res = await login(this.ruleForm);
         if (res.code == 200) {
           this.$message.success("登陆成功");
           setToken(res.data);
@@ -133,11 +133,18 @@ export default {
     //第三方登录：gitee
     async giteeLogin() {
       try {
-        const res = await reqGiteeLogin();
-        console.log(res);
+        // const res = await giteeLogin();
+       window.location.href="https://sparc-fusion.hqh.wiki/giteeLogin"
+       console.log(res)
+       return;
         if (res.code == 200) {
-          // localStorage.setItem('state',res.data.state)
-          window.open(res.data.codeUrl, "_blank");
+          console.log(res);
+          this.$message.success("登陆成功");
+          setToken(res.data);
+          this.$router.push({
+            path: "/home",
+          });
+          // window.open(res.data.codeUrl, "_blank");
         } else {
           this.$message.error(res.message);
         }
