@@ -5,26 +5,14 @@
       <div id="form" name="loginForm" v-loading.fullscreen.lock="loginLoading">
         <h1 id="loginMsg">LOGIN IN</h1>
         <p>
-          Username:<input
-            id="username"
-            v-model="ruleForm.username"
-            type="text"
-          />
+          Username:<input id="username" v-model="ruleForm.username" type="text" />
         </p>
         <p>
-          Password:&nbsp;<input
-            id="password"
-            v-model="ruleForm.password"
-            type="password"
-          />
+          Password:&nbsp;<input id="password" v-model="ruleForm.password" type="password" />
         </p>
         <p></p>
         <p>
-          验证码:&nbsp;<input
-            id="username"
-            type="text"
-            v-model="ruleForm.code"
-          />
+          验证码:&nbsp;<input id="username" type="text" v-model="ruleForm.code" />
           <el-image :src="'data:image/jpg;base64,' + img" @click="getCaptcha()">
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline"></i>
@@ -32,11 +20,7 @@
           </el-image>
         </p>
         <div id="subDiv">
-          <button
-            @click="submitForm()"
-            class="button"
-            style="margin-right: 30px"
-          >
+          <button @click="submitForm()" class="button" style="margin-right: 30px">
             login
           </button>
           <button @click="resetForm()" class="button">reset</button>
@@ -133,21 +117,23 @@ export default {
     //第三方登录：gitee
     async giteeLogin() {
       try {
-        // const res = await giteeLogin();
-       window.location.href="https://sparc-fusion.hqh.wiki/giteeLogin"
-       console.log(res)
-       return;
-        if (res.code == 200) {
-          console.log(res);
-          this.$message.success("登陆成功");
-          setToken(res.data);
-          this.$router.push({
-            path: "/home",
-          });
-          // window.open(res.data.codeUrl, "_blank");
-        } else {
-          this.$message.error(res.message);
-        }
+        const res = await giteeLogin();
+        console.log(res)
+        window.location.href = res.data;
+
+        // if (res.code == 200) {
+        //   console.log(res);
+        //   this.$message.success("登陆成功");
+        //   setToken(res.data);
+        //   this.$router.push({
+        //     path: "/home",
+        //   });
+        //   // window.open(res.data.codeUrl, "_blank");
+        // } else {
+        //   this.$message.error(res.message);
+        // }
+
+
       } catch (error) {
         console.log(error.message);
       }
@@ -165,6 +151,7 @@ export default {
   border-top: 1px solid #999;
   padding: 12px 20px 0 20px;
 }
+
 .third-party-login img {
   width: 25px;
 }

@@ -19,3 +19,10 @@ export const giteeLogin = (data)=>service({
     url:'/giteeLogin',
     method:"get",
 });
+
+//第三方登录:gitee
+export const giteeCallback = (data)=>service({
+    url:'/giteeCallback',
+    method:"get",
+    params:data
+});

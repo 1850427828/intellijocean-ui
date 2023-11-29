@@ -9,7 +9,7 @@ import Vue from 'vue';
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: '/', // API基础URL
+  baseURL: '/api', // API基础URL
   timeout: 15000 // 请求超时时间
 });
 
