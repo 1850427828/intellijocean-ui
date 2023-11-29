@@ -1,0 +1,437 @@
+/* 去除常见标签默认的margin和padding */
+*{
+    margin: 0;
+    padding: 0;
+	box-sizing: border-box;
+	/* box-sizing: inherit; */
+}
+
+/* 设置网页统一字体的大小，行高，字体系列相关属性 */
+body {
+    font: 16px/1.5 "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",small-caption;
+    /* 字体大小/行高，字体类型 */
+    color: #333;
+}
+
+/* 去除列表默认样式 */
+ul,
+ol {
+    list-style: none;
+    /* 去除序号和小圆点 */
+}
+
+/* 去除默认的倾斜效果 */
+em,
+i {
+    font-style: normal;
+}
+
+/* 去除a标签下划线，并设置黑色字体 */
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* 设置img的垂直对齐方式为居中对齐，去除img默认下间隙 */
+img {
+    vertical-align: middle;
+}
+
+/* 去除input默认样式 */
+input {
+    border: none;
+    outline: none;
+    /* 去除获取焦点的轮廓线 */
+    color: #333;
+}
+
+input,button {
+	background: transparent;
+	border: 0;
+	outline: none;
+}
+
+/* 滚轮 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+::-webkit-scrollbar {
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+.bg-red {
+	background-color: var(--red);
+	color: #fff;
+}
+
+.bg-orange {
+	background-color: var(--orange);
+	color: #fff;
+}
+
+.bg-yellow {
+	background-color: var(--yellow);
+	color: var(--black);
+}
+
+.bg-olive {
+	background-color: var(--olive);
+	color: #fff;
+}
+
+.bg-green {
+	background-color: var(--green);
+	color: #fff;
+}
+
+.bg-cyan {
+	background-color: var(--cyan);
+	color: #fff;
+}
+
+.bg-blue {
+	background-color: var(--blue);
+	color: #fff;
+}
+
+.bg-purple {
+	background-color: var(--purple);
+	color: #fff;
+}
+
+.bg-mauve {
+	background-color: var(--mauve);
+	color: #fff;
+}
+
+.bg-pink {
+	background-color: var(--pink);
+	color: #fff;
+}
+
+.bg-brown {
+	background-color: var(--brown);
+	color: #fff;
+}
+
+.bg-grey {
+	background-color: var(--grey);
+	color: #fff;
+}
+
+.bg-gray {
+	background-color: #f0f0f0;
+	color: #666;
+}
+
+.bg-black {
+	background-color: var(--black);
+	color: #fff;
+}
+
+.bg-white {
+	background-color: #fff;
+	color: #666;
+}
+
+.bg-shadeTop {
+	background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.01));
+	color: #fff;
+}
+
+.bg-shadeBottom {
+	background-image: linear-gradient(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 1));
+	color: #fff;
+}
+
+.bg-red.light {
+	color: var(--red);
+	background-color: #fadbd9;
+}
+
+.bg-orange.light {
+	color: var(--orange);
+	background-color: #fde6d2;
+}
+
+.bg-yellow.light {
+	color: var(--yellow);
+	background-color: #fef2ce;
+}
+
+.bg-olive.light {
+	color: var(--olive);
+	background-color: #e8f4d9;
+}
+
+.bg-green.light {
+	color: var(--green);
+	background-color: #d7f0db;
+}
+
+.bg-cyan.light {
+	color: var(--cyan);
+	background-color: #d2f1f0;
+}
+
+.bg-blue.light {
+	color: var(--blue);
+	background-color: #cce6ff;
+}
+
+.bg-purple.light {
+	color: var(--purple);
+	background-color: #e1d7f0;
+}
+
+.bg-mauve.light {
+	color: var(--mauve);
+	background-color: #ebd4ef;
+}
+
+.bg-pink.light {
+	color: var(--pink);
+	background-color: #f9d7ea;
+}
+
+.bg-brown.light {
+	color: var(--brown);
+	background-color: #ede1d9;
+}
+
+.bg-grey.light {
+	color: var(--grey);
+	background-color: #e7ebed;
+}
+
+.bg-gray.light {
+	color: #666;
+	background-color: #fadbd9;
+}
+
+.bg-gray.light {
+	color: #888;
+	background-color: #f1f1f1;
+}
+
+.bg-gradual-red {
+	background-image: var(--gradualRed);
+	color: #fff;
+}
+
+.bg-gradual-orange {
+	background-image: var(--gradualOrange);
+	color: #fff;
+}
+
+.bg-gradual-green {
+	background-image: var(--gradualGreen);
+	color: #fff;
+}
+
+.bg-gradual-purple {
+	background-image: var(--gradualPurple);
+	color: #fff;
+}
+
+.bg-gradual-pink {
+	background-image: var(--gradualPink);
+	color: #fff;
+}
+
+.bg-gradual-blue {
+	background-image: var(--gradualBlue);
+	color: #fff;
+}
+
+
+/* ==================
+          文本
+ ==================== */
+
+.text-xs {
+	font-size: 20rpx;
+}
+
+.text-sm {
+	font-size: 24rpx;
+}
+
+.text-df {
+	font-size: 28rpx;
+}
+
+.text-lg {
+	font-size: 32rpx;
+}
+
+.text-xl {
+	font-size: 36rpx;
+}
+
+.text-xxl {
+	font-size: 44rpx;
+}
+
+.text-sl {
+	font-size: 80rpx;
+}
+
+.text-xsl {
+	font-size: 120rpx;
+}
+
+.text-Abc {
+	text-transform: Capitalize;
+}
+
+.text-ABC {
+	text-transform: Uppercase;
+}
+
+.text-abc {
+	text-transform: Lowercase;
+}
+
+.text-price::before {
+	content: '¥';
+	font-size: 80%;
+	margin-right: 4rpx;
+}
+
+.text-cut {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.text-weight {
+	font-weight: bold;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-content {
+	line-height: 1.6;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-red,
+.line-red,
+.lines-red {
+	color: var(--red);
+}
+
+.text-orange,
+.line-orange,
+.lines-orange {
+	color: var(--orange);
+}
+
+.text-yellow,
+.line-yellow,
+.lines-yellow {
+	color: var(--yellow);
+}
+
+.text-olive,
+.line-olive,
+.lines-olive {
+	color: var(--olive);
+}
+
+.text-green,
+.line-green,
+.lines-green {
+	color: var(--green);
+}
+
+.text-cyan,
+.line-cyan,
+.lines-cyan {
+	color: var(--cyan);
+}
+
+.text-blue,
+.line-blue,
+.lines-blue {
+	color: var(--blue);
+}
+
+.text-purple,
+.line-purple,
+.lines-purple {
+	color: var(--purple);
+}
+
+.text-mauve,
+.line-mauve,
+.lines-mauve {
+	color: var(--mauve);
+}
+
+.text-pink,
+.line-pink,
+.lines-pink {
+	color: var(--pink);
+}
+
+.text-brown,
+.line-brown,
+.lines-brown {
+	color: var(--brown);
+}
+
+.text-grey,
+.line-grey,
+.lines-grey {
+	color: var(--grey);
+}
+
+.text-gray,
+.line-gray,
+.lines-gray {
+	color: var(--gray);
+}
+
+.text-black,
+.line-black,
+.lines-black {
+	color: var(--black);
+}
+
+.text-white,
+.line-white,
+.lines-white {
+	color: #fff;
+}
+
+.text-shadow {
+	text-shadow: 2rpx 4rpx 6rpx rgba(0, 0, 0, 0.4);
+}
