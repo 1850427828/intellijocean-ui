@@ -76,17 +76,7 @@ const router = new VueRouter({
                 hidden: false,
                 icon: 'Promotion'
             }
-        }, {
-            path: "/giteeLogin",
-            component: () => import("@/page/login/giteeLogin.vue"),
-            name: 'giteeLogin',
-            meta: {
-                title: "gitee登录",
-                hidden: false,
-                icon: 'Promotion'
-            }
         }
-
     ]
 })
 
