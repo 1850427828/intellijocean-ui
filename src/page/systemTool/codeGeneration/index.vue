@@ -73,29 +73,6 @@
         >
         <el-button
           size="medium"
-          type="info"
-          plain
-          icon="el-icon-upload"
-          :disabled="false"
-          @click="dialogFormVisible = true"
-          >连接数据源</el-button
-        >
-        <el-select
-          v-model="id"
-          filterable
-          placeholder="请选择"
-          @change="getAllData"
-        >
-          <el-option
-            v-for="item in option"
-            :key="item.id"
-            :label="item.datasourceName"
-            :value="item.id"
-          >
-          </el-option>
-        </el-select>
-        <el-button
-          size="medium"
           type="success"
           plain
           icon="el-icon-edit"
@@ -111,7 +88,50 @@
           @click="deleteSelected"
           >删除</el-button
         >
+        <el-button
+          size="medium"
+          type="info"
+          plain
+          icon="el-icon-upload"
+          :disabled="false"
+          @click="dialogFormVisible = true"
+          >连接数据源</el-button
+        >
+        <el-select
+          v-model="id"
+          filterable
+          size="medium"
+          placeholder="请选择"
+          @change="getAllData"
+          style="width: 140px; margin: 0 10px;"
+        >
+          <el-option
+            v-for="item in option"
+            :key="item.id"
+            :label="item.datasourceName"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
       </el-row>
+      <!-- <el-row>
+        <el-select
+          v-model="id"
+          filterable
+          size="medium"
+          placeholder="请选择"
+          @change="getAllData"
+          style="width: 140px"
+        >
+          <el-option
+            v-for="item in option"
+            :key="item.id"
+            :label="item.datasourceName"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+      </el-row> -->
     </div>
 
     <!-- 列表渲染 -->
@@ -745,5 +765,7 @@ export default {
 .table,
 .button {
   margin-top: 15px;
+  /* display: flex;
+  justify-content: space-between; */
 }
 </style>

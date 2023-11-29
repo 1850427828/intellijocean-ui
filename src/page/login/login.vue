@@ -4,21 +4,23 @@
     <div id="loginDiv">
       <div id="form" name="loginForm" v-loading.fullscreen.lock="loginLoading">
         <h1 id="loginMsg">LOGIN IN</h1>
-        <p>
+        <div>
           Username:<input id="username" v-model="ruleForm.username" type="text" />
-        </p>
-        <p>
+        </div>
+        <div>
           Password:&nbsp;<input id="password" v-model="ruleForm.password" type="password" />
-        </p>
-        <p></p>
-        <p>
-          验证码:&nbsp;<input id="username" type="text" v-model="ruleForm.code" />
-          <el-image :src="'data:image/jpg;base64,' + img" @click="getCaptcha()">
+        </div>
+        <div class="flex">
+          <div>
+            &nbsp;&nbsp;&nbsp;验证码:<input id="code" v-model="ruleForm.code" type="text" />
+          </div>
+          <el-image :src="'data:image/jpg;base64,' + img" @click="getCaptcha()"
+            style="width: 80px; height: 32px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline"></i>
             </div>
           </el-image>
-        </p>
+        </div>
         <div id="subDiv">
           <button @click="submitForm()" class="button" style="margin-right: 30px">
             login
@@ -132,8 +134,6 @@ export default {
         // } else {
         //   this.$message.error(res.message);
         // }
-
-
       } catch (error) {
         console.log(error.message);
       }
@@ -215,27 +215,46 @@ p {
 }
 
 #username {
-  width: 200px;
-  margin-left: 15px;
+  width: 232px;
+  height: 32px;
   border-radius: 5px;
   border-style: hidden;
-  height: 30px;
   background-color: rgba(216, 191, 216, 0.7);
   outline: none;
   color: #fff;
   padding-left: 10px;
+  margin: 15px 0 15px 15px;
 }
 
 #password {
-  width: 202px;
-  margin-left: 15px;
+  width: 230px;
+  height: 32px;
   border-radius: 5px;
   border-style: hidden;
-  height: 30px;
   background-color: rgba(216, 191, 216, 0.7);
   outline: none;
   color: #ffffff;
   padding-left: 10px;
+  margin: 15px 0 15px 15px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#code {
+  width: 153px;
+  height: 32px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-style: hidden;
+  background-color: rgba(216, 191, 216, 0.7);
+  outline: none;
+  color: #ffffff;
+  padding-left: 10px;
+  margin: 15px 0 15px 28px;
 }
 
 .button {
