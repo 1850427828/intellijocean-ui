@@ -15,7 +15,7 @@
       <el-scrollbar wrap-class="scrollbar-wrapper">
         <el-menu
           :router="true"
-          :default-active="$route.name"
+          :default-active="index"
           :collapse="false"
           background-color="#a1a6bb"
           active-text-color="#fff"
@@ -60,9 +60,21 @@ export default {
       index: "",
     };
   },
-  mounted() {},
-  computed: {},
+  mounted() {
+    this.getPath()
+  },
+
   methods: {
+    //获取路由
+    getPath() {
+      const { meta, path } = this.$route;
+      // console.log(meta, path);
+      if (meta.activeMenu) {
+        this.index = meta.activeMenu;
+      } else {
+        this.index = path;
+      }
+    },
     //菜单激活回调
     handleSelect(key, keyPath) {
       // console.log(key, keyPath);

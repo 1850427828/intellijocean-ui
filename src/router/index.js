@@ -54,6 +54,7 @@ const router = new VueRouter({
                     meta: {
                         title: "代码生成页",
                         requiresAuth: true, //登录权限
+                        activeMenu: '/systemTool/codeGeneration'
                     }
                 },
                 {
@@ -63,6 +64,7 @@ const router = new VueRouter({
                     meta: {
                         title: "代码生成页修改",
                         requiresAuth: true, //登录权限
+                        activeMenu: '/systemTool/codeGeneration'
                     }
                 },
                 {
@@ -72,6 +74,8 @@ const router = new VueRouter({
                     meta: {
                         title: "111",
                         requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/systemTool/systemMaintenance'
                     }
                 },
             ]
@@ -90,34 +94,34 @@ const router = new VueRouter({
 })
 
 
-// router.beforeEach((to, from, next) => {
-//     const userToken = getToken();
-//     const userRole = localStorage.getItem('userRole');
-//     // 检查路由元信息
-//     if (to.matched.some(record => record.meta.requiresAuth)) {
-//         // 用户需要身份验证，你可以在这里检查用户是否已登录
-//         if (userToken) {
-//             if (to.matched.some(record => record.meta.requiresAdmin)) {
-//                 // 用户需要管理员权限，你可以在这里检查用户的权限
-//                 if (userRole === 'admin') {
-//                     next() // 放行，允许管理员访问路由
-//                 } else {
-//                     // 用户不是管理员，可以处理权限不足的情况
-//                     // 例如，重定向到一个错误页面
-//                     ElementUI.Message({
-//                         message: '您的权限不足',
-//                         type: 'error'
-//                     });
-//                 }
-//             } else {
-//                 next()
-//             }
-//         } else {
-//             next('/login')
-//         }
-//     } else {
-//         next() // 允许访问没有特殊要求的路由
-//     }
-// })
+router.beforeEach((to, from, next) => {
+    const userToken = getToken();
+    const userRole = localStorage.getItem('userRole');
+    // 检查路由元信息
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // 用户需要身份验证，你可以在这里检查用户是否已登录
+        if (userToken) {
+            if (to.matched.some(record => record.meta.requiresAdmin)) {
+                // 用户需要管理员权限，你可以在这里检查用户的权限
+                if (userRole === 'admin') {
+                    next() // 放行，允许管理员访问路由
+                } else {
+                    // 用户不是管理员，可以处理权限不足的情况
+                    // 例如，重定向到一个错误页面
+                    ElementUI.Message({
+                        message: '您的权限不足',
+                        type: 'error'
+                    });
+                }
+            } else {
+                next()
+            }
+        } else {
+            next('/login')
+        }
+    } else {
+        next() // 允许访问没有特殊要求的路由
+    }
+})
 
 export default router

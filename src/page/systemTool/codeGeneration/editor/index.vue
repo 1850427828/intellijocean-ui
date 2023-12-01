@@ -375,7 +375,7 @@ export default {
     //返回主页面按钮
     backCodeGeneration() {
       this.$router.push({
-        path: "/codeGeneration",
+        path: "/systemTool/codeGeneration",
       });
     },
 

@@ -155,7 +155,7 @@
         <el-table-column
           label="操作"
           fixed="right"
-          min-width="150"
+          min-width="160"
           align="center"
         >
           <template slot-scope="scope">
@@ -697,7 +697,7 @@ export default {
     editTable(row) {
       const tableName = row.tableName;
       this.$router.push({
-        path: "/editor",
+        path: "/systemTool/codeGeneration/editor",
         query: { tableName },
       });
     },

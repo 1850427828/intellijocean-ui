@@ -74,15 +74,8 @@ service.interceptors.response.use(res => {
   if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
     return res.data
   }
-<<<<<<< HEAD
-  if (code === 401) {
-    const regex = /^30\d*/;
-    /^30\d*/.test()
-
-=======
 
   if (code === 200) {
->>>>>>> 17f8e40d7b719e6e513244d55e6076cff9d61ed2
     // if (!isRelogin.show) {
     //   isRelogin.show = true;
     //   ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
