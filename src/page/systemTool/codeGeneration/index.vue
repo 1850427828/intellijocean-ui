@@ -54,13 +54,7 @@
     </div>
 
     <!-- 页头按钮 -->
-    <div
-      class="button"
-      v-loading.fullscreen.lock="codeGenLoading"
-      element-loading-text="代码拼命生成中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
-    >
+    <div class="button">
       <el-row>
         <el-button
           id="codeGen"
@@ -119,24 +113,6 @@
           </el-option>
         </el-select>
       </el-row>
-      <!-- <el-row>
-        <el-select
-          v-model="id"
-          filterable
-          size="medium"
-          placeholder="请选择"
-          @change="getAllData"
-          style="width: 140px"
-        >
-          <el-option
-            v-for="item in option"
-            :key="item.id"
-            :label="item.datasourceName"
-            :value="item.id"
-          >
-          </el-option>
-        </el-select>
-      </el-row> -->
     </div>
 
     <!-- 列表渲染 -->
@@ -148,7 +124,6 @@
         tooltip-effect="dark"
         fixed
         @selection-change="handleSelectionChange"
-        v-loading.fullscreen.lock="tableDataLoading"
       >
         <el-table-column type="selection" min-width="50"></el-table-column>
         <el-table-column
@@ -202,14 +177,7 @@
     </div>
 
     <!-- 连接数据源弹框 -->
-    <el-dialog
-      title="数据库配置"
-      :visible.sync="dialogFormVisible"
-      v-loading="dialogLoading"
-      element-loading-text="数据库拼命连接中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
-    >
+    <el-dialog title="数据库配置" :visible.sync="dialogFormVisible">
       <el-form
         :model="configForm"
         :rules="rules"
@@ -375,12 +343,6 @@ export default {
   name: "codeGeneration",
   data() {
     return {
-      // 对话框加载
-      dialogLoading: false,
-      // 主页数据加载
-      tableDataLoading: false,
-      // 代码生成加载
-      codeGenLoading: false,
       //页头搜索数据
       input1: "",
       input2: "",
@@ -511,14 +473,18 @@ export default {
   created() {
     this.init();
   },
+
   mounted() {
-    this.driverObj.drive();
+    // this.driverObj.drive();
   },
+
   methods: {
     // 页面初始化
     init() {
-      this.getHistoryData().then(() => {
-        this.getAllData();
+      this.getHistoryData().then((code) => {
+        if(code===200){
+          this.getAllData();
+        }
       });
     },
 
@@ -540,18 +506,12 @@ export default {
         this.id = getDataBaseId();
       }
       if (getDataBaseId() || this.id) {
-        this.tableDataLoading = true;
         try {
           const res = await getAllData(this.id || getDataBaseId());
-          if (res.code == 200) {
-            setDataBaseId(this.id);
-            this.createTime = getCreateTime();
-            this.updateTime = getUpdateTime();
-            this.tableData = res.data;
-          } else {
-            this.$message.error(res.message);
-          }
-          this.tableDataLoading = false;
+          setDataBaseId(this.id);
+          this.createTime = getCreateTime();
+          this.updateTime = getUpdateTime();
+          this.tableData = res.data;
         } catch (error) {
           console.log(error.message);
         }
@@ -577,7 +537,6 @@ export default {
           id: getDataBaseId(),
           tableList: TableNameList,
         };
-        this.codeGenLoading = true;
         try {
           const res = await codeGen(data, "blob");
           //创建一个a标签元素
@@ -598,7 +557,6 @@ export default {
             link.click();
             document.body.removeChild(link);
             url.revokeObjectURL(link.href); //销毁url对象
-            this.codeGenLoading = false;
             this.$message.success("代码生成成功");
           } catch (e) {
             console.log("代码生成出错", e);
@@ -613,23 +571,17 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.dialogLoading = true;
           try {
             const res = await connectData(this.configForm);
-            if (res.code === 200) {
-              this.dialogFormVisible = false;
-              setCreateTime(getNewTime());
-              setUpdateTime(getNewTime());
-              this.getHistoryData();
-              this.$message({
-                message: "连接成功",
-                type: "success",
-              });
-            } else {
-              this.configForm = {};
-              this.$message.error("数据库连接失败");
-            }
-            this.dialogLoading = false;
+            this.dialogFormVisible = false;
+            setCreateTime(getNewTime());
+            setUpdateTime(getNewTime());
+            this.getHistoryData();
+            this.$message({
+              message: "连接成功",
+              type: "success",
+            });
+            this.configForm = {};
           } catch (error) {
             console.log(error.message);
             this.$message.error(res.message);
@@ -658,20 +610,18 @@ export default {
       if (TableNameList.length !== 0) {
         try {
           const res = await deleteData(data);
-          if (res.code === 200) {
-            for (let i = 0; i < this.selectedRows.length; i++) {
-              const index = this.tableData.indexOf(this.selectedRows[i]);
-              if (index > -1) {
-                this.tableData.splice(index, 1);
-              }
+          for (let i = 0; i < this.selectedRows.length; i++) {
+            const index = this.tableData.indexOf(this.selectedRows[i]);
+            if (index > -1) {
+              this.tableData.splice(index, 1);
             }
-            this.disabled = true;
-            this.selectedRows = []; // 清空选中的行数据
-            this.$message({
-              message: "删除成功",
-              type: "success",
-            });
           }
+          this.disabled = true;
+          this.selectedRows = []; // 清空选中的行数据
+          this.$message({
+            message: "删除成功",
+            type: "success",
+          });
         } catch (error) {
           console.log(error);
           this.$message.error(res.message);
@@ -685,15 +635,12 @@ export default {
     async getHistoryData() {
       try {
         const res = await getHistoryData();
-        if (res.code == 200) {
-          console.log(res);
-          this.option = res.data;
-        } else {
-          this.$message.error(res.message);
-        }
-        this.tableDataLoading = false;
+        console.log(res);
+        this.option = res.data;
+        return 200;
       } catch (error) {
         console.log(error.message);
+        return 500;
       }
     },
 
@@ -702,12 +649,7 @@ export default {
       this.editFormVisible = true;
       try {
         const res = await getGenStrategy(getDataBaseId());
-        if (res.code == 200) {
-          console.log(res);
-          this.strategyData = res.data;
-        } else {
-          this.$message.error(res.message);
-        }
+        this.strategyData = res.data;
       } catch (error) {
         console.log(error.message);
       }
@@ -730,12 +672,7 @@ export default {
       };
       try {
         const res = await editGenStrategy(data);
-        if (res.code == 200) {
-          console.log(res);
-          this.editFormVisible = false;
-        } else {
-          this.$message.error(res.message);
-        }
+        this.editFormVisible = false;
       } catch (error) {
         console.log(error.message);
       }
@@ -777,13 +714,11 @@ export default {
       };
       try {
         const res = await deleteData(data);
-        if (res.code === 200) {
-          this.tableData.splice(index, 1);
-          this.$message({
-            message: "删除成功",
-            type: "success",
-          });
-        }
+        this.tableData.splice(index, 1);
+        this.$message({
+          message: "删除成功",
+          type: "success",
+        });
       } catch (error) {
         console.log(error);
         this.$message.error(res.message);

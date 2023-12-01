@@ -2,27 +2,44 @@
   <div class="bodybox">
     <img class="bgbox" src="../../assets/images/loginbg.jpg" />
     <div id="loginDiv">
-      <div id="form" name="loginForm" v-loading.fullscreen.lock="loginLoading">
-        <h1 id="loginMsg">LOGIN IN</h1>
-        <div>
-          Username:<input id="username" v-model="ruleForm.username" type="text" />
-        </div>
-        <div>
-          Password:&nbsp;<input id="password" v-model="ruleForm.password" type="password" />
-        </div>
-        <div class="flex">
-          <div>
-            &nbsp;&nbsp;&nbsp;验证码:<input id="code" v-model="ruleForm.code" type="text" />
-          </div>
-          <el-image :src="'data:image/jpg;base64,' + img" @click="getCaptcha()"
-            style="width: 80px; height: 32px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
-            <div slot="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
+      <div id="form" name="loginForm">
+        <h1 id="loginMsg" style="margin-bottom: 15px">LOGIN IN</h1>
+        <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="ruleForm"
+          label-width="90px"
+          class="demo-ruleForm"
+        >
+          <el-form-item label="Username:" prop="username">
+            <input class="same" v-model="ruleForm.username" type="text" />
+          </el-form-item>
+
+          <el-form-item label="Password:" prop="password">
+            <input class="same" v-model="ruleForm.password" type="password" />
+          </el-form-item>
+          <el-form-item label="验证码:" prop="code">
+            <div class="flex">
+              <input class="same" v-model="ruleForm.code" type="text" />
+              <el-image
+                :src="'data:image/jpg;base64,' + img"
+                @click="getCaptcha()"
+                style="width: 80px; height: 34px"
+              >
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
             </div>
-          </el-image>
-        </div>
+          </el-form-item>
+        </el-form>
+
         <div id="subDiv">
-          <button @click="submitForm()" class="button" style="margin-right: 30px">
+          <button
+            @click="submitForm()"
+            class="button"
+            style="margin-right: 30px"
+          >
             login
           </button>
           <button @click="resetForm()" class="button">reset</button>
@@ -53,7 +70,6 @@ export default {
   name: "login",
   data() {
     return {
-      loginLoading: false,
       ruleForm: {
         username: "hqh2",
         password: "123456",
@@ -66,6 +82,7 @@ export default {
           { required: true, message: "请输入用户名", trigger: "blur" },
         ],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
       },
     };
   },
@@ -78,13 +95,9 @@ export default {
     async getCaptcha() {
       try {
         const res = await getCaptcha();
-        if (res.code == 200) {
-          console.log(res);
-          this.img = res.data.img;
-          this.ruleForm.uuid = res.data.uuid;
-        } else {
-          this.$message.error(res.message);
-        }
+        console.log(res);
+        this.img = res.data.img;
+        this.ruleForm.uuid = res.data.uuid;
       } catch (error) {
         console.log(error.message);
       }
@@ -92,20 +105,14 @@ export default {
 
     //登录按钮
     async submitForm() {
-      this.loginLoading = true;
       try {
         const res = await login(this.ruleForm);
-        if (res.code == 200) {
-          this.$message.success("登陆成功");
-          setToken(res.data);
-          // localStorage.setItem("userId", res.data.id);
-          this.$router.push({
-            path: "/home",
-          });
-        } else {
-          this.$message.error(res.message);
-        }
-        this.loginLoading = false;
+        this.$message.success("登陆成功");
+        setToken(res.data);
+        // localStorage.setItem("userId", res.data.id);
+        this.$router.push({
+          path: "/home",
+        });
       } catch (error) {
         console.log(error.message);
       }
@@ -120,7 +127,7 @@ export default {
     async giteeLogin() {
       try {
         const res = await giteeLogin();
-        console.log(res)
+        console.log(res);
         window.location.href = res.data;
 
         // if (res.code == 200) {
@@ -142,7 +149,7 @@ export default {
     async wechatLogin() {
       try {
         const res = await wechatLogin();
-        console.log(res)
+        console.log(res);
         window.location.href = res.data;
 
         // if (res.code == 200) {
@@ -166,7 +173,6 @@ export default {
 
 <style scoped >
 .third-party-login {
-  /* background: #97e7b2; */
   margin-top: 30px;
   display: flex;
   justify-content: space-around;
@@ -236,47 +242,29 @@ p {
   width: 20px;
 }
 
-#username {
+.same {
   width: 232px;
-  height: 32px;
+  height: 35px;
   border-radius: 5px;
   border-style: hidden;
   background-color: rgba(216, 191, 216, 0.7);
   outline: none;
   color: #fff;
   padding-left: 10px;
-  margin: 15px 0 15px 15px;
+  margin: 0 15px;
 }
 
-#password {
-  width: 230px;
-  height: 32px;
-  border-radius: 5px;
-  border-style: hidden;
-  background-color: rgba(216, 191, 216, 0.7);
-  outline: none;
-  color: #ffffff;
-  padding-left: 10px;
-  margin: 15px 0 15px 15px;
+.el-form-item {
+  margin-bottom: 25px;
+}
+:deep .el-form-item__label {
+  color: #fff;
 }
 
 .flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-#code {
-  width: 153px;
-  height: 32px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-style: hidden;
-  background-color: rgba(216, 191, 216, 0.7);
-  outline: none;
-  color: #ffffff;
-  padding-left: 10px;
-  margin: 15px 0 15px 28px;
 }
 
 .button {
@@ -306,5 +294,3 @@ p {
   color: red;
 }
 </style>
-
-@/api/login@/api/login/login

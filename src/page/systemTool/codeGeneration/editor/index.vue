@@ -11,12 +11,7 @@
           >返回</el-button
         >
       </div>
-      <div
-        v-loading.fullscreen.lock="editLoading"
-        element-loading-text="正在拼命保存中"
-        element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
-      >
+      <div>
         <el-button
           size="medium"
           type="primary"
@@ -48,7 +43,6 @@
       style="width: 100%"
       ref="multipleTable"
       tooltip-effect="dark"
-      v-loading.fullscreen.lock="tableDataLoading"
     >
       <el-table-column type="selection" width="40"></el-table-column>
 
@@ -261,10 +255,6 @@ export default {
   name: "editor",
   data() {
     return {
-      //保存的加载进度圈的显示状态
-      editLoading: false,
-      //数据的加载进度圈的显示状态
-      tableDataLoading: false,
       //压缩包选中状态
       radio: "1",
       //列表数据
@@ -365,7 +355,6 @@ export default {
   methods: {
     //获取后端列表数据
     async getTableData() {
-      this.tableDataLoading = true;
       const tableName = this.$route.query.tableName;
       const id = getDataBaseId();
       const data = {
@@ -376,17 +365,10 @@ export default {
       };
       try {
         const res = await getDetilData(data);
-        if (res.code === 200) {
-          console.log("----------------")
-          console.log(res)
-          this.tableDataPrimitive = res.data;
-          this.tableData = _.cloneDeep(this.tableDataPrimitive);
-          // this.tempTemplates=res.body.templateFiles;
-        }
-        this.tableDataLoading = false;
+        this.tableDataPrimitive = res.data;
+        this.tableData = _.cloneDeep(this.tableDataPrimitive);
       } catch (error) {
         console.log(error);
-        this.tableDataLoading = false;
       }
     },
 
@@ -437,7 +419,6 @@ export default {
 
     //页头保存按钮
     async saveTableData() {
-      this.editLoading = true;
       const id = getDataBaseId();
       const data = {
         id,
@@ -445,20 +426,13 @@ export default {
       };
       try {
         const res = await editTableData(data);
-        if (res.code === 200) {
-          console.log(res)
-          setUpdateTime(getNewTime());
-          this.$message({
-            message: "保存成功",
-            type: "success",
-          });
-        } else {
-          this.$message.error("保存失败");
-        }
-        this.editLoading = false;
+        setUpdateTime(getNewTime());
+        this.$message({
+          message: "保存成功",
+          type: "success",
+        });
       } catch (error) {
         console.log(error);
-        this.editLoading = false;
       }
     },
 
