@@ -12,60 +12,41 @@
       ></span>
     </div>
     <div class="sideNav-list">
-      <el-row class="tac">
-        <el-col :span="12">
-          <el-menu
-            :router="true"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-          >
-            <el-menu-item index="home">
-              <i class="el-icon-s-home"></i>
-              <span slot="title">首页</span>
-            </el-menu-item>
-
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-suitcase-1"></i>
-                <span>系统工具</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="codeGeneration">
-                  <i class="el-icon-printer"></i>
-                  <span>代码生成</span>
-                </el-menu-item>
-                <el-menu-item index="systemMaintenance">
-                  <i class="el-icon-s-operation"></i>
-                  <span>系统维护</span>
-                </el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-
-            <el-menu-item index="message">
-              <i class="el-icon-tickets"></i>
-              <span slot="title">公司信息</span>
-            </el-menu-item>
-          </el-menu>
-        </el-col>
-      </el-row>
-      <el-scrollbar :class="sideTheme" wrap-class="scrollbar-wrapper">
+      <el-scrollbar wrap-class="scrollbar-wrapper">
         <el-menu
-          :default-active="activeMenu"
-          :collapse="isCollapse"
-          :background-color="bgColor"
-          :text-color="textColor"
+          :router="true"
+          :default-active="$route.name"
+          :collapse="false"
+          background-color="#a1a6bb"
+          active-text-color="#fff"
           :unique-opened="true"
-          :active-text-color="activeColor"
           :collapse-transition="true"
           mode="vertical"
+          @select="handleSelect"
+          @open="handleOpen"
+          @close="handleClose"
         >
-          <sidebar-item
-            v-for="(route, index) in sidebarRouters"
-            :key="route.path + index"
-            :item="route"
-            :base-path="route.path"
-          />
+          <el-menu-item index="/home">
+            <i class="el-icon-s-home"></i>
+            <span slot="title">首页</span>
+          </el-menu-item>
+
+          <el-submenu index="/systemTool">
+            <template slot="title">
+              <i class="el-icon-suitcase-1"></i>
+              <span>系统工具</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/systemTool/codeGeneration">
+                <i class="el-icon-printer"></i>
+                <span>代码生成</span>
+              </el-menu-item>
+              <el-menu-item index="/systemTool/systemMaintenance">
+                <i class="el-icon-s-operation"></i>
+                <span>系统维护</span>
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
         </el-menu>
       </el-scrollbar>
     </div>
@@ -76,25 +57,27 @@
 export default {
   data() {
     return {
-      showList1: false,
-      showList2: false,
+      index: "",
     };
   },
+  mounted() {},
+  computed: {},
   methods: {
+    //菜单激活回调
+    handleSelect(key, keyPath) {
+      // console.log(key, keyPath);
+    },
+
+    //sub-menu 展开的回调
     handleOpen(key, keyPath) {
+      // console.log("打开");
       // console.log(key, keyPath);
     },
+
+    //sub-menu 关闭的回调
     handleClose(key, keyPath) {
+      // console.log("收起");
       // console.log(key, keyPath);
-    },
-    changeList(item) {
-      this.showList1 = !this.showList1;
-      if (!this.showList1) {
-        this.showList2 = !this.showList2;
-      } else {
-        this.showList2 = false;
-      }
-      this.$nextTick();
     },
   },
   computed: {},

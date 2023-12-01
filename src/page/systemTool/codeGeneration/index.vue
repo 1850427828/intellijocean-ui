@@ -66,18 +66,18 @@
     <div class="table">
       <el-table :data="tableData" style="width: 100%" ref="multipleTable" tooltip-effect="dark" fixed
         @selection-change="handleSelectionChange" v-loading.fullscreen.lock="tableDataLoading">
-        <el-table-column type="selection" width="50"></el-table-column>
-        <el-table-column type="index" label="序号" width="50"></el-table-column>
-        <el-table-column prop="tableName" label="表名称" width="200"></el-table-column>
-        <el-table-column prop="tableComment" label="表描述" width="200"></el-table-column>
-        <el-table-column prop="className" label="实体" width="120"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="180">{{
+        <el-table-column type="selection" min-width="50"></el-table-column>
+        <el-table-column type="index" label="序号" min-width="50"></el-table-column>
+        <el-table-column prop="tableName" label="表名称" min-width="200"></el-table-column>
+        <el-table-column prop="tableComment" label="表描述" min-width="200"></el-table-column>
+        <el-table-column prop="className" label="实体" min-width="120"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" min-width="180">{{
           createTime
         }}</el-table-column>
-        <el-table-column prop="updateTime" label="更新时间" width="180">{{
+        <el-table-column prop="updateTime" label="更新时间" min-width="180">{{
           updateTime
         }}</el-table-column>
-        <el-table-column label="操作" fixed="right">
+        <el-table-column label="操作" fixed="right" min-width="150" align="center">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">👁预览</el-button>
             <el-button @click="editTable(scope.row)" type="text" size="small">🖊编辑</el-button>
@@ -251,7 +251,7 @@ export default {
       },
       driverObj: driver({
         popoverClass: 'driverjs-theme',
-        allowClose: false,
+        allowClose: true,
         showProgress: true,
         steps: [
           { element: '.page', popover: { title: 'SparcFusion', description: '欢迎来到代码生成器！', side: "left", align: 'start' } },
@@ -270,9 +270,7 @@ export default {
     this.init();
   },
   mounted(){
-    this.driverObj.drive();
-    // this.driver();
-
+    // this.driverObj.drive();
   },
   methods: {
     // 页面初始化

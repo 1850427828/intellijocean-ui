@@ -88,9 +88,16 @@ service.interceptors.response.use(res => {
   } else if (code === 601) {
     ElMessage({ message: msg, type: 'warning' })
     return Promise.reject(new Error(msg))
+  } else if (code === 30000) {
+    // ElMessage({ message: msg, type: 'warning' })
+    console.log("12321")
+    router.push("/login");
+    return Promise.resolve(res.data)
   } else if (code !== 200) {
     ElNotification.error({ title: msg })
     return Promise.reject('error')
+
+ 
   } else {
     return Promise.resolve(res.data)
   }
