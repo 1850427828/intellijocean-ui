@@ -34,7 +34,7 @@ const router = new VueRouter({
         // 重定向，在项目跑起来的时候，访问/，直接定向到首页
         {
             path: "",
-            hidden:true,
+            hidden: true,
             component: () => import("@/layout"),
             redirect: '/home',
             children: [
@@ -48,20 +48,29 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: "/codeGeneration",
+                    path: "/systemTool/codeGeneration",
                     component: () => import("@/page/systemTool/codeGeneration"),
-                    name: '/codeGeneration',
+                    name: '/systemTool/codeGeneration',
                     meta: {
                         title: "代码生成页",
                         requiresAuth: true, //登录权限
                     }
                 },
                 {
-                    path: "/editor",
+                    path: "/systemTool/codeGeneration/editor",
                     component: () => import("@/page/systemTool/codeGeneration/editor"),
-                    name: '/editor',
+                    name: '/systemTool/codeGeneration/editor',
                     meta: {
                         title: "代码生成页修改",
+                        requiresAuth: true, //登录权限
+                    }
+                },
+                {
+                    path: "/systemTool/systemMaintenance",
+                    component: () => import("@/page/systemTool/systemMaintenance"),
+                    name: '/systemTool/systemMaintenance',
+                    meta: {
+                        title: "111",
                         requiresAuth: true, //登录权限
                     }
                 },
