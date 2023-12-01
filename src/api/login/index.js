@@ -26,3 +26,16 @@ export const giteeCallback = (data)=>service({
     method:"get",
     params:data
 });
+
+//第三方登录:wechat
+export const wechatLogin = (data)=>service({
+    url:'/wechatLogin',
+    method:"get",
+});
+
+//第三方登录:wechat
+export const wechatCallback = (data)=>service({
+    url:'/wechatCallback',
+    method:"get",
+    params:data
+});

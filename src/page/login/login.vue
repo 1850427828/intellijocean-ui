@@ -34,7 +34,7 @@
           <div @click="giteeLogin()">
             <img src="~@/assets/images/QQ.png" alt="" />
           </div>
-          <div @click="giteeLogin()">
+          <div @click="wechatLogin()">
             <img src="~@/assets/images/WeChart.png" alt="" />
           </div>
           <div @click="giteeLogin()">
@@ -47,7 +47,7 @@
 </template> 
 
 <script>
-import { login, getCaptcha, giteeLogin } from "@/api/login";
+import { login, getCaptcha, giteeLogin, wechatLogin } from "@/api/login";
 import { setToken } from "@/utils/auth"; //存储token
 export default {
   name: "login",
@@ -120,6 +120,28 @@ export default {
     async giteeLogin() {
       try {
         const res = await giteeLogin();
+        console.log(res)
+        window.location.href = res.data;
+
+        // if (res.code == 200) {
+        //   console.log(res);
+        //   this.$message.success("登陆成功");
+        //   setToken(res.data);
+        //   this.$router.push({
+        //     path: "/home",
+        //   });
+        //   // window.open(res.data.codeUrl, "_blank");
+        // } else {
+        //   this.$message.error(res.message);
+        // }
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+
+    async wechatLogin() {
+      try {
+        const res = await wechatLogin();
         console.log(res)
         window.location.href = res.data;
 
