@@ -2,7 +2,10 @@
 import axios from "axios";
 import errorCode from '@/utils/errorCode'  //错误状态码
 import { getToken } from '@/utils/auth'   //获取token
-import router from "@/router/index"
+import { loadingService, loadingClose } from '@/utils/loading'   //加载状态
+import { messageBoxConfirm } from '@/utils/messageBox'   //加载状态
+import router from "@/router/index"       //引入路由
+import { Message } from 'element-ui';     //消息提示
 // 导入Vue实例
 import Vue from 'vue';
 
@@ -52,6 +55,7 @@ service.interceptors.request.use(config => {
   //     }
   //   }
   // }
+  loadingService();  //开启加载
   return config
 }, error => {
   console.log(error)
@@ -60,7 +64,8 @@ service.interceptors.request.use(config => {
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-  //添加http
+  //关闭加载
+  loadingClose();
   // 未设置状态码则默认成功状态
   const code = res.data.code || 200;
   // 获取错误信息
@@ -69,10 +74,15 @@ service.interceptors.response.use(res => {
   if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
     return res.data
   }
+<<<<<<< HEAD
   if (code === 401) {
     const regex = /^30\d*/;
     /^30\d*/.test()
 
+=======
+
+  if (code === 200) {
+>>>>>>> 17f8e40d7b719e6e513244d55e6076cff9d61ed2
     // if (!isRelogin.show) {
     //   isRelogin.show = true;
     //   ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
@@ -84,25 +94,23 @@ service.interceptors.response.use(res => {
     //     isRelogin.show = false;
     //   });
     // }
-    return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
-  } else if (code === 500) {
-    ElMessage({ message: msg, type: 'error' })
-    return Promise.reject(new Error(msg))
-  } else if (code === 601) {
-    ElMessage({ message: msg, type: 'warning' })
-    return Promise.reject(new Error(msg))
-  } else if (code === 30000) {
-    // ElMessage({ message: msg, type: 'warning' })
-    console.log("12321")
-    router.push("/login");
     return Promise.resolve(res.data)
-  } else if (code !== 200) {
-    ElNotification.error({ title: msg })
-    return Promise.reject('error')
-
- 
-  } else {
-    return Promise.resolve(res.data)
+  }
+  else if (/^30\d*/.test(code)) {
+    messageBoxConfirm()
+    return Promise.reject(new Error(msg))
+  }
+  else if (/^40\d*/.test(code)) {
+    Message.error(msg);
+    return Promise.reject(new Error(msg))
+  }
+  else if (/^50\d*/.test(code)) {
+    Message.error(msg);
+    return Promise.reject(new Error(msg))
+  }
+  else {
+    Message.error(msg);
+    return Promise.reject('错误码：' + code)
   }
 }, error => {
   console.log('err' + error)

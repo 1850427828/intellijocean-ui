@@ -16,18 +16,13 @@
 export default {
   name: "home",
   data() {
-    return {
-    };
+    return {};
   },
   created() {},
-  mounted() {
-  },
-  methods: {
-    
-  },
+  mounted() {},
+  methods: {},
 };
 </script>
 
 <style scoped>
-
 </style>
