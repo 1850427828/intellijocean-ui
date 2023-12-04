@@ -47,6 +47,11 @@
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+
+          <el-menu-item index="/message">
+            <i class="el-icon-s-operation"></i>
+            <span slot="title">信息管理</span>
+          </el-menu-item>
         </el-menu>
       </el-scrollbar>
     </div>
@@ -61,7 +66,7 @@ export default {
     };
   },
   mounted() {
-    this.getPath()
+    this.getPath();
   },
 
   methods: {
@@ -90,6 +95,11 @@ export default {
     handleClose(key, keyPath) {
       // console.log("收起");
       // console.log(key, keyPath);
+    },
+  },
+  watch: {
+    "$route.path"() {
+      this.getPath();
     },
   },
   computed: {},

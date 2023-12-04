@@ -43,39 +43,81 @@ const router = new VueRouter({
                     component: () => import("@/page/home.vue"),
                     name: '/home',
                     meta: {
-                        title: "主页",
+                        title: "首页",
                         requiresAuth: true, //登录权限
                     }
-                },
+                }
+            ]
+        },
+        {
+            path: "/systemTool",
+            hidden: true,
+            component: () => import("@/layout"),
+            meta: {
+                title: "系统工具",
+            },
+            // redirect: '/systemTool/codeGeneration',
+            children: [
                 {
-                    path: "/systemTool/codeGeneration",
+                    path: "codeGeneration",
                     component: () => import("@/page/systemTool/codeGeneration"),
                     name: '/systemTool/codeGeneration',
                     meta: {
-                        title: "代码生成页",
+                        title: "代码生成",
                         requiresAuth: true, //登录权限
                         activeMenu: '/systemTool/codeGeneration'
-                    }
+                    },
+                    children: [
+                        {
+                            path: "editor",
+                            component: () => import("@/page/systemTool/codeGeneration/editor"),
+                            name: '/systemTool/codeGeneration/editor',
+                            meta: {
+                                title: "修改连接表",
+                                requiresAuth: true, //登录权限
+                                activeMenu: '/systemTool/codeGeneration'
+                            }
+                        },
+                    ]
                 },
+                // {
+                //     path: "codeGeneration/editor",
+                //     component: () => import("@/page/systemTool/codeGeneration/editor"),
+                //     name: '/systemTool/codeGeneration/editor',
+                //     meta: {
+                //         title: "修改连接表",
+                //         requiresAuth: true, //登录权限
+                //         activeMenu: '/systemTool/codeGeneration'
+                //     }
+                // },
                 {
-                    path: "/systemTool/codeGeneration/editor",
-                    component: () => import("@/page/systemTool/codeGeneration/editor"),
-                    name: '/systemTool/codeGeneration/editor',
-                    meta: {
-                        title: "代码生成页修改",
-                        requiresAuth: true, //登录权限
-                        activeMenu: '/systemTool/codeGeneration'
-                    }
-                },
-                {
-                    path: "/systemTool/systemMaintenance",
+                    path: "systemMaintenance",
                     component: () => import("@/page/systemTool/systemMaintenance"),
                     name: '/systemTool/systemMaintenance',
                     meta: {
-                        title: "111",
+                        title: "系统维护",
                         requiresAuth: true, //登录权限
                         permissions: ['admin'],
                         activeMenu: '/systemTool/systemMaintenance'
+                    }
+                },
+            ]
+        },
+        {
+            path: "/message",
+            hidden: true,
+            component: () => import("@/layout"),
+            redirect: '/message',
+            children: [
+                {
+                    path: "/message",
+                    component: () => import("@/page/message"),
+                    name: '/message',
+                    meta: {
+                        title: "信息管理",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/message'
                     }
                 },
             ]
