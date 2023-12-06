@@ -281,7 +281,7 @@ export default {
       let data = {
         wxScanUuid: this.qrCodeId,
       };
-      //发送请求获取用户支付状态
+      //发送请求获取用户扫码状态
       try {
         const res = await weChatCheckScan(data);
         console.log(res);
@@ -327,6 +327,11 @@ export default {
       try {
         const res = await emailLogin(this.emailForm);
         console.log(res);
+        this.$message.success("登陆成功");
+        setToken(res.data);
+        this.$router.push({
+          path: "/home",
+        });
       } catch (error) {
         console.log(error.message);
       }
