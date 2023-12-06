@@ -14,28 +14,42 @@ export const getCaptcha = ()=>service({
 });
 
 
-//第三方登录:gitee
+//第三方登录:gitee 跳转gitee授权
 export const giteeLogin = (data)=>service({
     url:'/giteeLogin',
     method:"get",
 });
 
-//第三方登录:gitee
+//第三方登录:gitee gitee回调
 export const giteeCallback = (data)=>service({
     url:'/giteeCallback',
     method:"get",
     params:data
 });
 
-//第三方登录:wechat
-export const wechatLogin = (data)=>service({
-    url:'/wechatLogin',
+//第三方登录:wechat 获取二维码
+export const weChatLogin = ()=>service({
+    url:'/wx/wxQrCode',
     method:"get",
 });
 
-//第三方登录:wechat
-export const wechatCallback = (data)=>service({
-    url:'/wechatCallback',
+//第三方登录:wechat 获取扫码结果
+export const weChatCheckScan = (data)=>service({
+    url:'/wx/checkScan',
     method:"get",
     params:data
+});
+
+//第三方登录:获取邮箱验证码
+export const getEmailUuid = (data)=>service({
+    url:'/sendEmail',
+    method:"get",
+    params:data
+});
+
+//第三方登录:邮箱登录
+export const emailLogin = (data)=>service({
+    url:'/qqEmailLogin',
+    method:"post",
+    data:data
 });

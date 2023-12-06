@@ -5,11 +5,14 @@ import ElementUI from 'element-ui';
 import router  from '@/router/index'
 import axios from 'axios';
 import store from "@/store"
+import VueParticles from 'vue-particles' //粒子特效
+
 
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/base.css';
 
 Vue.use(ElementUI);
+Vue.use(VueParticles)
 
 
 //引入适配器

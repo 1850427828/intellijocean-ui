@@ -126,7 +126,6 @@
           style="width: 100%"
           ref="multipleTable"
           tooltip-effect="dark"
-          fixed
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" min-width="50"></el-table-column>
@@ -492,8 +491,7 @@ export default {
     this.init();
   },
 
-  mounted() {
-  },
+  mounted() {},
 
   methods: {
     // 页面初始化
@@ -754,15 +752,12 @@ export default {
   .el-table__header-wrapper
   .el-table__header
   .el-table__cell {
-  /* padding: 7px 0; */
   font-size: 14px;
   color: #999;
   font-weight: 600px;
-  text-align: center;
-  /* background-color: #f2f2f2; */
+  text-align: center; 
 }
 
-/* el-table__cell */
 :deep
   .el-table
   .el-table__body-wrapper
@@ -771,7 +766,7 @@ export default {
   .el-table__cell
   .cell
   .el-button--text {
-  font-size: 13px;
+  /* font-size: 13px; */
 }
 
 :deep .el-dialog__wrapper .el-dialog .el-dialog__body .el-form .el-form-item {
@@ -824,7 +819,5 @@ export default {
 .table,
 .button {
   margin-top: 15px;
-  /* display: flex;
-  justify-content: space-between; */
 }
 </style>

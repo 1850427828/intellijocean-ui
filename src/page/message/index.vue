@@ -2,97 +2,280 @@
   <div>
     <!-- 页头搜索 -->
     <div class="input">
-
       <div class="input-font">
         <div class="fontdiv">员工号</div>
-        <el-input placeholder="请输入员工号" v-model="input" clearable size="medium"></el-input>
+        <el-input
+          placeholder="请输入员工号"
+          v-model="input"
+          clearable
+          size="medium"
+        ></el-input>
       </div>
 
       <div class="input-button input-font">
-        <el-button size="medium" type="primary" icon="el-icon-search" :loading="false" @click="searchId()">搜索</el-button>
-        <el-button size="medium" plain icon="el-icon-refresh" @click="resetSearch">重置</el-button>
+        <el-button
+          size="medium"
+          type="primary"
+          icon="el-icon-search"
+          :loading="false"
+          @click="searchId()"
+          >搜索</el-button
+        >
+        <el-button
+          size="medium"
+          plain
+          icon="el-icon-refresh"
+          @click="resetSearch"
+          >重置</el-button
+        >
       </div>
-
     </div>
     <!-- 页头按钮 -->
-    <div class="button"  v-loading.fullscreen.lock="empLoading"  element-loading-text="代码拼命生成中" 
+    <div
+      class="button"
+      v-loading.fullscreen.lock="empLoading"
+      element-loading-text="代码拼命生成中"
       element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)" >
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+    >
       <el-row>
-        <el-button size="medium" type="success" plain icon="el-icon-plus" :disabled="false"
-          @click="dialogFormVisible = true">添加</el-button>
-        <el-button size="medium" type="danger" plain icon="el-icon-delete" :disabled="disabled"
-          @click="deleteSelected">删除</el-button>
+        <el-button
+          size="medium"
+          type="success"
+          plain
+          icon="el-icon-plus"
+          :disabled="false"
+          @click="dialogFormVisible = true"
+          >添加</el-button
+        >
+        <el-button
+          size="medium"
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          :disabled="disabled"
+          @click="deleteSelected"
+          >删除</el-button
+        >
       </el-row>
     </div>
 
     <!-- 列表渲染 -->
     <div class="table">
-      <el-table :data="tableData" style="width: 100%" ref="multipleTable" tooltip-effect="dark"
-        @selection-change="handleSelectionChange" v-loading.fullscreen.lock="tableDataLoading">
-        <el-table-column type="selection" width="50"></el-table-column>
-        <el-table-column prop="eno" label="工号" width="70"></el-table-column>
-        <el-table-column prop="ename" label="姓名" width="120"></el-table-column>
-        <el-table-column prop="etele" label="联系方式" width="120"></el-table-column>
-        <el-table-column prop="epost" label="职位" width="120"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
-        <el-table-column prop="updateTime" label="更新时间" width="180"></el-table-column>
-        <el-table-column label="操作">
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        ref="multipleTable"
+        tooltip-effect="dark"
+        @selection-change="handleSelectionChange"
+        v-loading.fullscreen.lock="tableDataLoading"
+      >
+        <el-table-column type="selection" min-width="50"></el-table-column>
+        <el-table-column
+          type="index"
+          label="序号"
+          min-width="60"
+        ></el-table-column>
+        <el-table-column
+          prop="ename"
+          label="头像"
+          min-width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="etele"
+          label="昵称"
+          min-width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="epost"
+          label="性别"
+          min-width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="epost"
+          label="联系方式"
+          min-width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="epost"
+          label="状态"
+          min-width="50"
+        ></el-table-column>
+        <el-table-column
+          prop="createTime"
+          label="创建时间"
+          min-width="180"
+        ></el-table-column>
+        <el-table-column
+          prop="updateTime"
+          label="更新时间"
+          min-width="180"
+        ></el-table-column>
+        <el-table-column label="操作" min-width="180">
           <template slot-scope="scope">
-            <el-button @click="editTable(scope.row)" type="text" size="small">🖊编辑</el-button>
-            <el-button @click="deleteRow(scope.$index, scope.row)" type="text" size="small">🗑删除</el-button>
+            <el-button @click="editTable(scope.row)" type="text" size="small"
+              >🖊编辑</el-button
+            >
+            <el-button
+              @click="deleteRow(scope.$index, scope.row)"
+              type="text"
+              size="small"
+              >🗑删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
     </div>
 
     <!-- 添加弹框 -->
-    <el-dialog title="添加员工信息" :visible.sync="dialogFormVisible"
-       v-loading="dialogLoading" element-loading-text="添加中" element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)">
-      <el-form :model="addForm" :rules="rules" ref="addForm" label-width="80px" class="demo-ruleForm">
-
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="addForm.ename" placeholder="请输入姓名"></el-input>
+    <el-dialog title="添加员工信息" :visible.sync="dialogFormVisible">
+      <el-form
+        :model="addForm"
+        :rules="rules"
+        ref="addForm"
+        label-width="80px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="头像">
+          <el-input
+            v-model="addForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
         </el-form-item>
-
-        <el-form-item label="联系方式" prop="tele" maxlength="11">
-          <el-input v-model="addForm.etele" placeholder="请输入联系方式"></el-input>
+        <el-form-item label="用户名">
+          <el-input
+            v-model="addForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
         </el-form-item>
-
-        <el-form-item label="职位" prop="post">
-          <el-input v-model="addForm.epost" placeholder="请输入职位"></el-input>
+        <el-form-item label="用户密码">
+          <el-input
+            v-model="addForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="昵称">
+          <el-input
+            v-model="addForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-input
+            v-model="addForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式">
+          <el-input
+            v-model="addForm.etele"
+            placeholder="请输入联系方式"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input
+            v-model="addForm.etele"
+            placeholder="请输入联系方式"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="用户状态">
+          <el-input
+            v-model="addForm.etele"
+            placeholder="请输入联系方式"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input
+            v-model="addForm.etele"
+            placeholder="请输入联系方式"
+          ></el-input>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" plain size="medium" @click="addExistForm('addForm')">保存</el-button>
+          <el-button
+            type="primary"
+            plain
+            size="medium"
+            @click="addExistForm('addForm')"
+            >保存</el-button
+          >
           <el-button @click="addForm = {}" size="medium">重置</el-button>
-          <el-button @click="dialogFormVisible = false" size="medium">取 消</el-button>
+          <el-button @click="dialogFormVisible = false" size="medium"
+            >取 消</el-button
+          >
         </el-form-item>
       </el-form>
     </el-dialog>
 
     <!-- 编辑弹框 -->
-    <el-dialog title="修改员工信息" :visible.sync="exitDialogFormVisible"
-       v-loading="dialogLoading" element-loading-text="修改中" element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)">
-      <el-form :model="editForm" ref="editForm" label-width="80px" class="demo-ruleForm">
-
-        <el-form-item label="姓名">
-          <el-input v-model="editForm.ename" placeholder="请输入姓名"></el-input>
+    <el-dialog title="修改用户信息" :visible.sync="exitDialogFormVisible">
+      <el-form
+        :model="editForm"
+        ref="editForm"
+        label-width="80px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="头像">
+          <el-input
+            v-model="editForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
         </el-form-item>
-
+        <el-form-item label="用户名">
+          <el-input
+            v-model="editForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码">
+          <el-input
+            v-model="editForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="昵称">
+          <el-input
+            v-model="editForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-input
+            v-model="editForm.ename"
+            placeholder="请输入昵称"
+          ></el-input>
+        </el-form-item>
         <el-form-item label="联系方式">
-          <el-input v-model="editForm.etele" placeholder="请输入联系方式"></el-input>
+          <el-input
+            v-model="editForm.etele"
+            placeholder="请输入联系方式"
+          ></el-input>
         </el-form-item>
-
-        <el-form-item label="职位">
-          <el-input v-model="editForm.epost" placeholder="请输入职位"></el-input>
+        <el-form-item label="邮箱">
+          <el-input
+            v-model="editForm.etele"
+            placeholder="请输入联系方式"
+          ></el-input>
         </el-form-item>
-
+        <el-form-item label="用户状态">
+          <el-input
+            v-model="editForm.etele"
+            placeholder="请输入联系方式"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input
+            v-model="editForm.etele"
+            placeholder="请输入联系方式"
+          ></el-input>
+        </el-form-item>
         <el-form-item>
-          <el-button type="primary" plain size="medium" @click="editExistForm()">保存</el-button>
-          <el-button @click="exitDialogFormVisible = false" size="medium">取 消</el-button>
+          <el-button type="primary" plain size="medium" @click="editExistForm()"
+            >保存</el-button
+          >
+          <el-button @click="exitDialogFormVisible = false" size="medium"
+            >取 消</el-button
+          >
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -111,7 +294,7 @@ export default {
       // 代码生成加载
       empLoading: false,
       //页头搜索数据
-      input: '',
+      input: "",
       //页头删除按钮禁用状态
       disabled: true,
       //保存多选框选中的行数据
@@ -122,28 +305,23 @@ export default {
       exitDialogFormVisible: false,
       //编辑对话框表单数据
       editForm: {
-        eno: '',
-        ename: '',
-        etele: '',
-        epost:''
+        eno: "",
+        ename: "",
+        etele: "",
+        epost: "",
       },
       //添加对话框
       dialogFormVisible: false,
       //添加对话框表单数据
-      addForm: {
-      },
+      addForm: {},
       //添加对话框表单数据规则
       rules: {
-      ename: [
-        { required: true, message: '请输入姓名', trigger: 'change' }
-      ],
-      etele: [
-        { required: true, message: '请输入联系方式', trigger: 'change' }
-      ],
-      epost: [
-        { required: true, message: '请输入职位', trigger: 'change' }
-      ],
-    }
+        ename: [{ required: true, message: "请输入姓名", trigger: "change" }],
+        etele: [
+          { required: true, message: "请输入联系方式", trigger: "change" },
+        ],
+        epost: [{ required: true, message: "请输入职位", trigger: "change" }],
+      },
     };
   },
 
@@ -169,7 +347,7 @@ export default {
     },
 
     //页头搜索按钮
-    async searchId(){
+    async searchId() {
       // try{
       //   console.log(this.input)
       //   const res=await reqSelecteno(this.input);
@@ -184,8 +362,8 @@ export default {
     },
 
     //页头重置按钮
-    resetSearch(){
-      this.input="";
+    resetSearch() {
+      this.input = "";
       this.getAllTable();
     },
 
@@ -266,15 +444,14 @@ export default {
       // }
     },
 
-
     //操作栏编辑
     editTable(row) {
-      this.exitDialogFormVisible = true
-      this.editForm= row
+      this.exitDialogFormVisible = true;
+      this.editForm = row;
     },
 
     //操作栏编辑保存按钮
-    async editExistForm(){
+    async editExistForm() {
       // this.tableDataLoading = true
       // try{
       //   const res=await requpdateTable(this.editForm);
@@ -324,7 +501,12 @@ export default {
 </script>
 
 <style scoped>
-:deep .table .el-table .el-table__header-wrapper .el-table__header  .el-table__cell {
+:deep
+  .table
+  .el-table
+  .el-table__header-wrapper
+  .el-table__header
+  .el-table__cell {
   padding: 7px 0;
   font-size: 14px;
   color: #999;
@@ -333,7 +515,14 @@ export default {
   background-color: #f2f2f2;
 }
 /* el-table__cell */
-:deep .el-table .el-table__body-wrapper .el-table__body .el-table__row .el-table__cell .cell .el-button--text {
+:deep
+  .el-table
+  .el-table__body-wrapper
+  .el-table__body
+  .el-table__row
+  .el-table__cell
+  .cell
+  .el-button--text {
   font-size: 13px;
 }
 
@@ -350,7 +539,13 @@ export default {
   width: 36%;
 }
 
-:deep .el-table .el-table__body-wrapper .el-table__body .el-table__row .el-table__cell .cell {
+:deep
+  .el-table
+  .el-table__body-wrapper
+  .el-table__body
+  .el-table__row
+  .el-table__cell
+  .cell {
   text-overflow: clip;
   text-align: center;
 }
@@ -379,8 +574,7 @@ export default {
 }
 
 .table,
-.button{
+.button {
   margin-top: 15px;
 }
-
 </style>
