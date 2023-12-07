@@ -24,7 +24,8 @@
         <div class="login">
           <div class="hero">
             <h1>SparcFusion<br />Hello</h1>
-            <p>如果你没有账号<br />可以<a href="#">点击这里</a>进行注册.</p>
+            <!-- <p>如果你没有账号<br />可以<a href="#">点击这里</a>进行注册.</p> -->
+            <p>Every encounter is a collision of souls,<br/> a profound connection that transcends mere chance</p>
           </div>
           <div class="main">
             <div v-if="showTest">绑定账号</div>
@@ -97,7 +98,7 @@
                   value="Login"
                   @click="emailSubmitForm()"
                 />
-                <a href="#" class="findPassword">找回密码</a>
+                <!-- <a href="#" class="findPassword">找回密码</a> -->
               </p>
             </form>
             <!-- <div v-else-if="showEmailForm"></div> -->
@@ -183,7 +184,7 @@ export default {
       //二维码图片
       qrcodeImage: "",
       //webSocket返回的对象
-      webSocket: {},
+      webSocket: null,
       rules: {
         username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
@@ -196,6 +197,15 @@ export default {
 
   mounted() {
     this.getCaptcha();
+  },
+  destroyed(){
+    if(this.webSocket!=null){
+      if(this.webSocket.readyState==1){
+        // 手动关闭
+        this.webSocket.close();
+      }
+    }
+     
   },
   methods: {
     //获取验证码
@@ -254,6 +264,7 @@ export default {
     //微信扫码登录
     async wechatLogin() {
       this.isShow = false;
+      this.showEmailForm=false;
       try {
         const res = await weChatLogin();
         if (res.code == 200) {
@@ -263,6 +274,7 @@ export default {
           this.webSocket = webSocketInit(this.qrCodeId);
           this.webSocket.onmessage = (message) => {
             if (message.data === "scan_finish") {
+              this.webSocket.close();
               this.checkScan();
             } else {
               this.$message.error("webSocket服务异常");
@@ -302,7 +314,7 @@ export default {
       }
     },
 
-    //邮箱登录
+    //选择邮箱登录
     getEmailUuid() {
       this.showEmailForm = true;
       this.isShow = false;
@@ -341,6 +353,7 @@ export default {
     codeLogin() {
       this.showEmailForm = false;
       this.isShow = true;
+      this.getCaptcha();
     },
   },
 };
