@@ -114,7 +114,7 @@ const router = new VueRouter({
                     component: () => import("@/page/message"),
                     name: '/message',
                     meta: {
-                        title: "信息管理",
+                        title: "用户管理",
                         requiresAuth: true, //登录权限
                         permissions: ['admin'],
                         activeMenu: '/message'

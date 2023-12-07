@@ -1,14 +1,6 @@
 <template>
   <div>
-    <header>
-      <div class="top_container">
-        <h1
-          style="margin: 0; padding: 10px; font-size: 28px; text-align: center"
-        >
-          管理后台
-        </h1>
-      </div>
-    </header>
+    <div class="echart1"></div>
   </div>
 </template>
 
@@ -19,10 +11,45 @@ export default {
     return {};
   },
   created() {},
-  mounted() {},
-  methods: {},
+  mounted() {
+    this.showEcharts();
+  },
+
+  methods: {
+    showEcharts() {
+      let myChart = this.$echarts.init(document.querySelector(".echart1"));
+      myChart.setOption({
+        xAxis: {
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: [120, 200, 150, 80, 70, 110, 130],
+            type: "bar",
+            showBackground: true,
+            backgroundStyle: {
+              color: "rgba(220, 220, 220, 0.8)",
+            },
+          },
+        ],
+      });
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+    },
+  },
 };
 </script>
 
 <style scoped>
+.echart1 {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  /* background-color: skyblue; */
+}
 </style>

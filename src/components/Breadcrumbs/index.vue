@@ -7,19 +7,19 @@
       @wheel.prevent="handleScroll"
     >
       <router-link
-        v-for="tag in visitedViews"
-        :key="tag.path"
+        v-for="(tag, index) in visitedViews"
+        :key="index"
         :data-path="tag.path"
         :class="isActive(tag) ? 'active' : ''"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
         class="tags-view-item"
       >
         {{ tag.title }}
-        <span @click.prevent.stop="closeSelectedTag(tag)">
-          <close
-            class="el-icon-close"
-            style="width: 1em; height: 1em; vertical-align: middle"
-          />
+        <span
+          @click.prevent.stop="closeSelectedTag(tag, index)"
+          v-if="tag.name != '/home'"
+        >
+          <i class="el-icon-close"></i>
         </span>
       </router-link>
     </el-scrollbar>
@@ -27,72 +27,63 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "",
   data() {
-    return {
-      visitedViews: [
-        {
-          title: "首页",
-          path: "/home",
-          query: "",
-          fullPath: "",
-        },
-        {
-          title: "代码生成",
-          path: "/systemTool/codeGeneration",
-          query: "",
-          fullPath: "",
-        },
-        {
-          title: "员工管理",
-          path: "/message",
-          query: "",
-          fullPath: "",
-        },
-        {
-          title: "系统维护",
-          path: "/systemTool/systemMaintenance",
-          query: "",
-          fullPath: "",
-        }
-      ],
-    };
+    return {};
   },
-  created() {
+  created() {},
+  mounted() {
     this.calcBreads();
   },
-  mounted() {},
+
+  //获取state里的面包屑数据
+  computed: {
+    ...mapState({
+      visitedViews: (state) => state.breadcrumb.tabList,
+    }),
+  },
   methods: {
+    //添加面包屑
     calcBreads() {
-      let temp = [{ to: "/home", title: "首页" }];
-      let test = this.$route.matched
-        .filter((v) => v.meta.title) //当点击的是没有子菜单的导航项时,过滤掉matched对象数组中的第二项
-        .map((v) => {
-          return { title: v.meta.title }; //提取path和title生成我们需要的数据格式
-        });
-      if (test[0].title == "首页") {
-        this.breakList = [...temp];
-      } else {
-        this.breakList = [...temp, ...test]; //让面包屑以首页开头  => 首页 / 账号管理 / 账号添加
-      }
+      let test = this.$route.matched.filter((v) => v.name); //当点击的是没有子菜单的导航项时,过滤掉matched对象数组中的第二项
+      // console.log(test);
+      let item = {
+        title: test[0].meta.title,
+        path: test[0].path,
+        name: test[0].name,
+        query: "",
+        fullPath: "",
+      }; //提取path和title生成我们需要的数据格式
+      this.$store.commit("SelectMenu", item);
     },
 
+    //样式是否展示
     isActive(r) {
       return r.path === this.$route.path;
     },
-    closeSelectedTag(view) {
-      let path=view.path
-      let v = this.visitedViews.filter(item => item.path !== path);
-      console.log(v)
-      this.visitedViews=v
-      // this.$tab.closePage(view).then(({ visitedViews }) => {
-      //   if (this.isActive(view)) {
-      //     this.toLastView(visitedViews, view);
-      //   }
-      // });
+
+    //关闭面包屑
+    closeSelectedTag(item, index) {
+      // 删除面包屑数据
+      this.$store.commit("closeTag", item);
+      // 如果删除的刚好是自己
+      if (item.name === this.$route.name) {
+        const length = this.visitedViews.length;
+        // 如果删除的是最后一个:跳到前一个
+        if (length === index) {
+          this.$router.push({ name: this.visitedViews[index - 1].name });
+        }
+        // 不是最后一个:往后一个
+        else {
+          this.$router.push({ name: this.visitedViews[index].name });
+        }
+      }
     },
   },
+
+  //监听路由变化
   watch: {
     "$route.path"() {
       this.calcBreads();

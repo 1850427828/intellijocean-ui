@@ -25,7 +25,10 @@
           <div class="hero">
             <h1>SparcFusion<br />Hello</h1>
             <!-- <p>如果你没有账号<br />可以<a href="#">点击这里</a>进行注册.</p> -->
-            <p>Every encounter is a collision of souls,<br/> a profound connection that transcends mere chance</p>
+            <p>
+              Every encounter is a collision of souls,<br />
+              a profound connection that transcends mere chance
+            </p>
           </div>
           <div class="main">
             <div v-if="showTest">绑定账号</div>
@@ -73,7 +76,7 @@
               </p>
             </form>
             <form action="" v-else-if="showEmailForm">
-              <p>
+              <p style="margin-top: 78px;">
                 <input
                   type="text"
                   placeholder="邮箱"
@@ -101,7 +104,6 @@
                 <!-- <a href="#" class="findPassword">找回密码</a> -->
               </p>
             </form>
-            <!-- <div v-else-if="showEmailForm"></div> -->
             <div v-else class="qrcode">
               <el-image :src="qrcodeImage">
                 <div slot="error" class="image-slot">
@@ -135,7 +137,12 @@
                   /></a>
                 </li>
                 <li @click="codeLogin()">
-                  <a href="#">账号</a>
+                  <a href="#"><img
+                      class="image"
+                      style="width: 34px;"
+                      src="~@/assets/images/back.png"
+                      alt=""
+                  /></a>
                 </li>
               </ul>
             </div>
@@ -198,14 +205,13 @@ export default {
   mounted() {
     this.getCaptcha();
   },
-  destroyed(){
-    if(this.webSocket!=null){
-      if(this.webSocket.readyState==1){
+  destroyed() {
+    if (this.webSocket != null) {
+      if (this.webSocket.readyState == 1) {
         // 手动关闭
         this.webSocket.close();
       }
     }
-     
   },
   methods: {
     //获取验证码
@@ -264,7 +270,7 @@ export default {
     //微信扫码登录
     async wechatLogin() {
       this.isShow = false;
-      this.showEmailForm=false;
+      this.showEmailForm = false;
       try {
         const res = await weChatLogin();
         if (res.code == 200) {
@@ -368,7 +374,7 @@ export default {
 
   --light-text-color: #9398b3;
   --light-bg-color: #f2f4ff;
-  --dark-color: #333333;
+  --dark-color: #999;
 
   --background-color: #fcfcff;
 }
@@ -439,8 +445,8 @@ h1 {
   position: absolute;
   top: 15%;
   left: 0;
-  width: 280px;
-  height: 100px;
+  width: 330px;
+  height: 120px;
   background: linear-gradient(to right, var(--primary-color), #c471ed, #f64f59);
   z-index: -1;
   filter: blur(70px);
@@ -651,10 +657,10 @@ form input.submit:hover {
   border-bottom-right-radius: 0;
 }
 .emailCode {
-  background-color: #e8f0fe;
+  background-color: #f2f4ff;
   width: 30%;
   height: 50px;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -49,8 +49,8 @@
           </el-submenu>
 
           <el-menu-item index="/message">
-            <i class="el-icon-s-operation"></i>
-            <span slot="title">信息管理</span>
+            <i class="el-icon-user-solid"></i>
+            <span slot="title">用户管理</span>
           </el-menu-item>
         </el-menu>
       </el-scrollbar>
