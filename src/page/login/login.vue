@@ -76,7 +76,7 @@
               </p>
             </form>
             <form action="" v-else-if="showEmailForm">
-              <p style="margin-top: 78px;">
+              <p style="margin-top: 78px">
                 <input
                   type="text"
                   placeholder="邮箱"
@@ -137,9 +137,10 @@
                   /></a>
                 </li>
                 <li @click="codeLogin()">
-                  <a href="#"><img
+                  <a href="#"
+                    ><img
                       class="image"
-                      style="width: 34px;"
+                      style="width: 34px"
                       src="~@/assets/images/back.png"
                       alt=""
                   /></a>
@@ -236,6 +237,7 @@ export default {
       try {
         const res = await login(ruleForm);
         this.$message.success("登陆成功");
+        console.log(res);
         setToken(res.data);
         // localStorage.setItem("userId", res.data.id);
         this.$router.push({

@@ -31,6 +31,11 @@
             <span slot="title">首页</span>
           </el-menu-item>
 
+          <el-menu-item index="/message">
+            <i class="el-icon-user-solid"></i>
+            <span slot="title">用户管理</span>
+          </el-menu-item>
+          
           <el-submenu index="/systemTool">
             <template slot="title">
               <i class="el-icon-suitcase-1"></i>
@@ -47,11 +52,6 @@
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
-          <el-menu-item index="/message">
-            <i class="el-icon-user-solid"></i>
-            <span slot="title">用户管理</span>
-          </el-menu-item>
         </el-menu>
       </el-scrollbar>
     </div>
