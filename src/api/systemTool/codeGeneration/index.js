@@ -58,7 +58,7 @@ export const getGenStrategy = (id)=>service({
 
 //代码生成修改全局策略
 export const editGenStrategy = (data)=>service({
-    url:'/code-gen/updateAll',
+    url:'/code-gen/updateStrategy',
     method:"post",
     data:data,
 });

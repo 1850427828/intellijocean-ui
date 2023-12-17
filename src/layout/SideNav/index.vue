@@ -50,6 +50,10 @@
                 <i class="el-icon-s-operation"></i>
                 <span>系统维护</span>
               </el-menu-item>
+              <el-menu-item index="/systemTool/fileManagement">
+                <i class="el-icon-s-operation"></i>
+                <span>文件管理</span>
+              </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

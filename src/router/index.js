@@ -101,6 +101,17 @@ const router = new VueRouter({
                         activeMenu: '/systemTool/systemMaintenance'
                     }
                 },
+                {
+                    path: "fileManagement",
+                    component: () => import("@/page/systemTool/fileManagement"),
+                    name: '/systemTool/fileManagement',
+                    meta: {
+                        title: "文件管理",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/systemTool/fileManagement'
+                    }
+                },
             ]
         },
         {
@@ -128,6 +139,16 @@ const router = new VueRouter({
             name: 'login',
             meta: {
                 title: "登录",
+                hidden: false,
+                icon: 'Promotion'
+            }
+        },
+        {
+            path: "/giteeLogin",
+            component: () => import("@/page/login/giteeLogin.vue"),
+            name: 'giteeLogin',
+            meta: {
+                title: "gitee授权登录",
                 hidden: false,
                 icon: 'Promotion'
             }

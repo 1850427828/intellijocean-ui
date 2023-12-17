@@ -65,9 +65,9 @@
                   </div>
                 </el-image>
               </p>
-              <p style="position: relative">
+              <p style="position: relative" >
                 <input
-                  type="submit"
+                  type="button"
                   class="submit"
                   value="Login"
                   @click="submitForm(ruleForm)"
@@ -75,7 +75,7 @@
                 <a href="#" class="findPassword">找回密码</a>
               </p>
             </form>
-            <form action="" v-else-if="showEmailForm">
+            <form action="" v-else-if="showEmailForm"  >
               <p style="margin-top: 78px">
                 <input
                   type="text"
@@ -96,10 +96,11 @@
               </p>
               <p style="position: relative">
                 <input
-                  type="submit"
+                  type="button"
                   class="submit"
                   value="Login"
                   @click="emailSubmitForm()"
+                  @keyup.enter="emailSubmitForm()"
                 />
                 <!-- <a href="#" class="findPassword">找回密码</a> -->
               </p>
@@ -178,7 +179,7 @@ export default {
       showEmailForm: false,
       //提交表单
       ruleForm: {
-        username: "hqh2",
+        username: "hqh",
         password: "123456",
         code: "",
         uuid: "",
@@ -202,6 +203,8 @@ export default {
       },
     };
   },
+
+
 
   mounted() {
     this.getCaptcha();

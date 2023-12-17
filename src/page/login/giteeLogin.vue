@@ -1,4 +1,3 @@
-
 <template>
   <div class="bodybox">页面跳转中...</div>
 </template> 

@@ -116,6 +116,16 @@
             >
             </el-option>
           </el-select>
+          <el-button
+            id="datasourceConnection"
+            size="medium"
+            type="info"
+            plain
+            icon="el-icon-upload"
+            :disabled="false"
+            @click="driverObj.drive()"
+            >指引</el-button
+          >
         </el-row>
       </div>
 
@@ -491,7 +501,9 @@ export default {
     this.init();
   },
 
-  mounted() {},
+  mounted() {
+  // this.driverObj.driver()
+},
 
   methods: {
     // 页面初始化
@@ -505,14 +517,88 @@ export default {
 
     // 操作指引
     driver() {
-      const driverObj = driver();
-      driverObj.highlight({
-        element: ".page",
-        popover: {
-          title: "SparcFusion",
-          description: "欢迎来到代码生成器",
-        },
-      });
+      const driverObj2 = driver();
+      // driverObj.highlight({
+      //   element: ".page",
+      //   popover: {
+      //     title: "SparcFusion",
+      //     description: "欢迎来到代码生成器",
+      //   },
+      // });
+
+      driverObj2.highlight({
+        popoverClass: "driverjs-theme",
+        allowClose: true,
+        showProgress: true,
+        steps: [
+          {
+            element: ".page",
+            popover: {
+              title: "SparcFusion",
+              description: "欢迎来到代码生成器！",
+              side: "left",
+              align: "start",
+            },
+          },
+          {
+            element: "#datasourceConnection",
+            popover: {
+              title: "连接数据源",
+              description: "在这里您可以选择想要连接的数据源进行连接",
+              side: "bottom",
+              align: "start",
+            },
+          },
+          {
+            element: ".table",
+            popover: {
+              title: "查看数据源信息",
+              description: "连接后您可以在这里看到关于数据源的相关信息",
+              side: "left",
+              align: "start",
+            },
+          },
+          {
+            element: "#globalStrategy",
+            popover: {
+              title: "全局策略配置",
+              description: "如果您想要控制生成策略,可点击进行个性化配置",
+              side: "bottom",
+              align: "start",
+            },
+          },
+          {
+            element: "#delete",
+            popover: {
+              title: "删除信息",
+              description: "如果您想要删除某条信息,可选中一条数据后点击此处",
+              side: "right",
+              align: "start",
+            },
+          },
+          {
+            element: "#codeGen",
+            popover: {
+              title: "生成代码",
+              description:
+                "完成修改后,只需点击生成即可获取一套CRUD代码以及相关的UI代码",
+              side: "top",
+              align: "start",
+            },
+          },
+          {
+            element: "#connectionHistory",
+            popover: {
+              title: "数据源更换",
+              description:
+                "最后,在此处将显示您的数据源连接历史,您可以通过选择不同的数据源进行更换展示以及需要生成的相关信息",
+              side: "top",
+              align: "start",
+            },
+          },
+        ],
+      })
+
     },
 
     //获取基本列表数据
