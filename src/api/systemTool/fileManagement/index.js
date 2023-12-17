@@ -1,7 +1,7 @@
 import service from "@/utils/request";
 
-export const checkFileMd5 = (data) => service({
-    url:'/oss/checkMd5',
-    method:"post",
-    data:data,
+export const mergeChunks = (data) => service({
+    url:'/chunk/upload',
+    method:"get",
+    params:data,
 });

@@ -1,59 +1,54 @@
 <template>
     <div>
-        <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-        点我打开
-    </el-button>
+        <el-button @click="drawerClick" type="primary" style="margin-left: 16px;">
+            点我打开
+        </el-button>
 
-    <el-drawer title="文件管理" :visible.sync="drawer" :direction="direction" >
-        <!-- <span>文件管理</span> -->
-        <uploader :options="options" :autoStart="false" :fileStatusText="fileStatus" @file-added="onFileAdded"
-        @file-success="onFileSuccess" @file-error="onFileError" @file-progress="onFileProgress" class="uploader-example">
-        <uploader-unsupport></uploader-unsupport>
-        <uploader-drop>
-            <p>上传文件</p>
-            <uploader-btn>选择文件</uploader-btn>
-            <uploader-btn :attrs="attrs">选择图片</uploader-btn>
-            <uploader-btn :directory="true">选择文件夹</uploader-btn>
-        </uploader-drop>
-        <uploader-list></uploader-list>
-    </uploader>
-    </el-drawer>
+        <el-drawer title="文件管理" :visible.sync="drawer" :direction="direction">
+            <!-- <span>文件管理</span> -->
+            <uploader :options="options" :autoStart="false" :fileStatusText="fileStatus" @file-added="onFileAdded"
+                @file-success="onFileSuccess" @file-error="onFileError" @file-progress="onFileProgress"
+                class="uploader-example">
+                <uploader-unsupport></uploader-unsupport>
+                <uploader-drop>
+                    <p>上传文件</p>
+                    <uploader-btn>选择文件</uploader-btn>
+                    <uploader-btn :attrs="attrs">选择图片</uploader-btn>
+                    <uploader-btn :directory="true">选择文件夹</uploader-btn>
+                </uploader-drop>
+                <uploader-list></uploader-list>
+            </uploader>
+        </el-drawer>
     </div>
-   
-
-
-
-
-
-
-
-
-
-   
 </template>
 <script>
 
 import SparkMD5 from 'spark-md5'
-// import { checkFileMd5 } from '@/api/systemTool/fileManagement/index'
+import { getToken } from '@/utils/auth'
+import { mergeChunks } from '@/api/systemTool/fileManagement/index'
 
 export default {
 
 
     data() {
+        const token = getToken()
         return {
             // 抽屉是否打开
             drawer: false,
             // 抽屉打开的放向
-            direction:"rtl",
+            direction: "rtl",
             options: {
-                target: "/api/chunk/upload", //目标上传地址URL，默认值为 '/'
+                target: "/api/chunk/upload", //目标上传地址URL，默认值为 '/'   这个请求不会经过request.js  但是会代理api路径
                 // 是否开启服务器分片校验。默认为 true   开启后文件上传时会同时向target路径发送get请求效验分片
                 testChunks: true,
                 // 真正上传的时候使用的 HTTP 方法,默认 POST
                 chunkSize: 1024,  //  文件分片大小 1024=1kB
                 simultaneousUploads: 5, //并发上传数，默认 3。
                 fileParameterName: "file",   //上传文件时文件的参数名，默认 file
-                headers: "",  //额外的一些请求头，例如有时我们需要在header中向后台传递token，默认为对象: {}。
+                headers: {
+                    // 需要携带token信息，当然看各项目情况具体定义
+                    Authorization: 'Bearer ' + token,
+                },  //额外的一些请求头，例如有时我们需要在header中向后台传递token，默认为对象: {}。
                 maxChunkRetries: 3,   //最大自动失败重试上传次数，值可以是任意正整数，如果是 undefined 则代表无限次，默认 0。
                 chunkRetryInterval: 100,   //重试间隔，值可以是任意正整数，如果是 null 则代表立即重试，默认 null。
                 parseTimeRemaining: function (timeRemaining, parsedTimeRemaining) {
@@ -114,7 +109,7 @@ export default {
     },
 
     methods: {
-        drawer() {
+        drawerClick() {
             this.drawer = true
         },
 
@@ -155,16 +150,24 @@ export default {
             });
         },
         // 一个文件上传成功事件
-        onFileSuccess(rootFile, file, message, chunk) {
-
+        async onFileSuccess(rootFile, file, message, chunk) {
+            // 上传成功  请求合并
+            const data = {
+                'totalChunks': file.chunks.length,
+                'identifier': file.uniqueIdentifier,
+                'filename': file.name
+            }
+            // 发送请求 合并分片
+            const res = await mergeChunks(data)
+            console.log("文件上传成功")
         },
         // 上传过程中出错了
         onFileError(rootFile, file, message, chunk) {
-
+            console.log("分片上传错误")
         },
         // 一个文件在上传中
         onFileProgress(rootFile, file, chunk) {
-
+            console.log("文件上传中")
         },
 
         // 对文件进行md5 加密
