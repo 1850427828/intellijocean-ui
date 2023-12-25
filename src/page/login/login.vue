@@ -179,7 +179,7 @@ export default {
       showEmailForm: false,
       //提交表单
       ruleForm: {
-        username: "hqh",
+        username: "15137504729",
         password: "123456",
         code: "",
         uuid: "",
@@ -247,6 +247,8 @@ export default {
           path: "/home",
         });
       } catch (error) {
+        // 刷新验证码
+        this.getCaptcha();
         console.log(error.message);
       }
     },

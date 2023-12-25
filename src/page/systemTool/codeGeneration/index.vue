@@ -159,12 +159,8 @@
             label="实体"
             min-width="120"
           ></el-table-column>
-          <el-table-column prop="createTime" label="创建时间" min-width="180">{{
-            createTime
-          }}</el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" min-width="180">{{
-            updateTime
-          }}</el-table-column>
+          <el-table-column prop="createTime" label="创建时间" min-width="180"></el-table-column>
+          <el-table-column prop="updateTime" label="更新时间" min-width="180"></el-table-column>
           <el-table-column
             label="操作"
             fixed="right"
@@ -610,8 +606,8 @@ export default {
         try {
           const res = await getAllData(this.id || getDataBaseId());
           setDataBaseId(this.id);
-          this.createTime = getCreateTime();
-          this.updateTime = getUpdateTime();
+          // this.createTime = getCreateTime();
+          // this.updateTime = getUpdateTime();
           this.tableData = res.data;
         } catch (error) {
           console.log(error.message);

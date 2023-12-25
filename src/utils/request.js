@@ -58,6 +58,7 @@ service.interceptors.request.use(config => {
   loadingService();  //开启加载
   return config
 }, error => {
+  loadingClose();
   console.log(error)
   Promise.reject(error)
 })

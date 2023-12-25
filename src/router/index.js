@@ -134,6 +134,25 @@ const router = new VueRouter({
             ]
         },
         {
+            path: "/roleManagement",
+            hidden: true,
+            component: () => import("@/layout"),
+            redirect: '/roleManagement',
+            children: [
+                {
+                    path: "/roleManagement",
+                    component: () => import("@/page/roleManagement"),
+                    name: '/roleManagement',
+                    meta: {
+                        title: "角色管理",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/roleManagement'
+                    }
+                },
+            ]
+        },
+        {
             path: "/login",
             component: () => import("@/page/login/login.vue"),
             name: 'login',
