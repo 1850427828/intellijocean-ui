@@ -13,8 +13,21 @@ export const deletes = ( data) => service({
     data: data,
 });
 
-export const mergeChunks = (data) => service({
+export const download=(params) =>service({
+    url: '/oss/download',
+    method: "get",
+    params: params,
+    responseType:'blob'
+});
+
+export const mergeChunks = (params) => service({
     url: '/chunk/upload',
     method: "get",
-    params: data,
+    params: params,
+});
+
+export const getUploadId=(data) =>service({
+    url: '/chunk/uploadId',
+    method: "post",
+    data: data,
 });

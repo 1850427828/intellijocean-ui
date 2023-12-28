@@ -462,7 +462,7 @@ export default {
         const res = await getAllData(query, data);
         if (res.code == 200) {
           this.tableData = res.data.rows;
-          this.total = res.data.total;
+          this.total = parseInt(res.data.total);
           console.log(res.data.rows);
         } else {
           this.$message.error(res.message);

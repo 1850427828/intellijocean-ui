@@ -54,6 +54,7 @@
                   placeholder="验证码"
                   v-model="ruleForm.code"
                   class="codeInput"
+                  @keyup.enter="submitForm(ruleForm)"
                 />
                 <el-image
                   class="codeImage"
@@ -89,6 +90,7 @@
                   placeholder="验证码"
                   v-model="emailForm.emailCode"
                   class="emailInput"
+                  @keyup.enter="emailSubmitForm()"
                 />
                 <span class="emailCode" @click="getEmailCode()"
                   >发送验证码</span
@@ -100,7 +102,6 @@
                   class="submit"
                   value="Login"
                   @click="emailSubmitForm()"
-                  @keyup.enter="emailSubmitForm()"
                 />
                 <!-- <a href="#" class="findPassword">找回密码</a> -->
               </p>
@@ -249,6 +250,7 @@ export default {
       } catch (error) {
         // 刷新验证码
         this.getCaptcha();
+        this.ruleForm.code=""
         console.log(error.message);
       }
     },
@@ -343,6 +345,7 @@ export default {
         console.log(res);
         this.emailForm.emailUuid = res.data;
       } catch (error) {
+        
         console.log(error.message);
       }
     },
@@ -358,6 +361,7 @@ export default {
           path: "/home",
         });
       } catch (error) {
+        this.emailForm.emailCode=""
         console.log(error.message);
       }
     },

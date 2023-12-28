@@ -9,14 +9,14 @@
                 class="uploader-example">
                 <uploader-unsupport></uploader-unsupport>
                 <uploader-drop>
-                    <uploader-btn >选择文件</uploader-btn>
+                    <uploader-btn>选择文件</uploader-btn>
                     <uploader-btn :attrs="attrs">选择图片</uploader-btn>
                     <uploader-btn :directory="true">选择文件夹</uploader-btn>
                 </uploader-drop>
                 <uploader-list></uploader-list>
             </uploader>
 
-            
+
             <el-empty description="选择文件上传"></el-empty>
         </el-drawer>
         <!-- ===================================================================================================================== -->
@@ -79,17 +79,21 @@
                 <el-table-column type="index" label="序号" min-width="80"></el-table-column>
                 <el-table-column prop="avatar" label="预览" min-width="100">
                     <template #default="scope">
-                        <el-avatar :size="45" :src="scope.row.url" fit="contain" style="background-color: #fff;padding: 5px;">
+                        <el-avatar :size="45" :src="scope.row.url" fit="contain"
+                            style="background-color: #fff;padding: 5px;" @error="avatarError()">
                             <img v-if="scope.row.fileSuffix === '.jpg' || scope.row.fileSuffix === '.png' || scope.row.fileSuffix === '.jpeg'"
                                 src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
                             <img v-else-if="scope.row.fileSuffix === '.gif'" src="" />
-                            <img v-else-if="scope.row.fileSuffix === '.mp3'" src="http://47.120.8.164:9100/static/icon/mp3.png" />
-                            <img v-else-if="scope.row.fileSuffix === '.mp4'" src="http://47.120.8.164:9100/static/icon/mp4.png" />
-                            <img v-else-if="scope.row.fileSuffix === '.doc' || scope.row.fileSuffix === '.docx'" 
-                            src="http://47.120.8.164:9100/static/icon/Word.png" />
-                            <img v-else-if="scope.row.fileSuffix === '.xls' || scope.row.fileSuffix === '.xlsx'" 
-                            src="http://47.120.8.164:9100/static/icon/excel.png" />
-                            <img v-else-if="scope.row.fileSuffix === '.zip'" src="http://47.120.8.164:9100/static/icon/zip.png" />
+                            <img v-else-if="scope.row.fileSuffix === '.mp3'"
+                                src="http://47.120.8.164:9100/static/icon/mp3.png" />
+                            <img v-else-if="scope.row.fileSuffix === '.mp4'"
+                                src="http://47.120.8.164:9100/static/icon/mp4.png" />
+                            <img v-else-if="scope.row.fileSuffix === '.doc' || scope.row.fileSuffix === '.docx'"
+                                src="http://47.120.8.164:9100/static/icon/Word.png" />
+                            <img v-else-if="scope.row.fileSuffix === '.xls' || scope.row.fileSuffix === '.xlsx'"
+                                src="http://47.120.8.164:9100/static/icon/excel.png" />
+                            <img v-else-if="scope.row.fileSuffix === '.zip'"
+                                src="http://47.120.8.164:9100/static/icon/zip.png" />
                             <img v-else src="http://47.120.8.164:9100/static/icon/file.png" />
                         </el-avatar>
                     </template>
@@ -117,18 +121,24 @@
                 <!-- fixed="right" -->
                 <el-table-column label="操作" min-width="160">
                     <template #default="scope">
-                        <el-button @click="getTableData()" type="text" size="small">👁预览</el-button>
+                        <el-button @click="preview(scope.row.url)" type="text" size="small">👁预览</el-button>
                         <el-button @click="upload(scope.row.url, scope.row.originalName)" type="text"
                             size="small">🖊下载</el-button>
-                        <el-button @click="deleteFile(scope.row.ossId,scope.row.url)" type="text" size="small">🗑删除</el-button>
+                        <el-button @click="deleteFile(scope.row.ossId, scope.row.url)" type="text"
+                            size="small">🗑删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
         <!-- 分页器 -->
-        <Pagination :total="total" :page="pageNumber" :size="pageSize" @getPage="getPage($event)" @getSize="getSize($event)">
+        <Pagination :total="total" :page="pageNumber" :size="pageSize" @getPage="getPage($event)"
+            @getSize="getSize($event)">
         </Pagination>
 
+        <!-- 视频预览 -->
+        <el-dialog title="预览" :visible.sync="videoPreview" >
+            <video alt="视频预览" width="700px" height="400px" :src="videoUrl" />
+        </el-dialog>
 
     </div>
 </template>
@@ -136,7 +146,7 @@
 
 import SparkMD5 from 'spark-md5'
 import { getToken } from '@/utils/auth'
-import { mergeChunks, queryTableData,deletes } from '@/api/systemTool/fileManagement'
+import { mergeChunks, queryTableData, deletes, download, getUploadId } from '@/api/systemTool/fileManagement'
 import Pagination from "@/components/Pagination";
 export default {
     name: "fileManagement",
@@ -144,25 +154,30 @@ export default {
     data() {
         const token = getToken()
         const chunkSize = this.getChunkSize();
+
         return {
             // 抽屉是否打开
             drawer: false,
             // 抽屉打开的放向
             direction: "rtl",
+            uploadId: "123",
             options: {
                 target: "/api/chunk/upload", //目标上传地址URL，默认值为 '/'   这个请求不会经过request.js  但是会代理api路径
                 // 是否开启服务器分片校验。默认为 true   开启后文件上传时会同时向target路径发送get请求效验分片
                 testChunks: true,
+                query: () => ({
+                    "uploadId": this.uploadId
+                }),
                 // 真正上传的时候使用的 HTTP 方法,默认 POST
                 chunkSize: chunkSize,  //  文件分片大小 1024=1kB
-                simultaneousUploads: 5, //并发上传数，默认 3。
+                simultaneousUploads: 3, //并发上传数，默认 3。
                 fileParameterName: "file",   //上传文件时文件的参数名，默认 file
                 headers: {
                     // 需要携带token信息，当然看各项目情况具体定义
                     Authorization: 'Bearer ' + token,
                 },  //额外的一些请求头，例如有时我们需要在header中向后台传递token，默认为对象: {}。
-                maxChunkRetries: 3,   //最大自动失败重试上传次数，值可以是任意正整数，如果是 undefined 则代表无限次，默认 0。
-                chunkRetryInterval: 100,   //重试间隔，值可以是任意正整数，如果是 null 则代表立即重试，默认 null。
+                maxChunkRetries: 1,   //最大自动失败重试上传次数，值可以是任意正整数，如果是 undefined 则代表无限次，默认 0。
+                chunkRetryInterval: 1000,   //重试间隔，值可以是任意正整数，如果是 null 则代表立即重试，默认 null。
                 parseTimeRemaining: function (timeRemaining, parsedTimeRemaining) {
                     //格式化时间
                     return parsedTimeRemaining
@@ -183,14 +198,14 @@ export default {
                 // * 如果后端返回[1,2,3,4,5,6,7,8,9]等(分片信息)，代表可以继续上传
                 // 写了该方法之后   上传分片只会先发送一个get请求  用于效验该文件是否需要上传
                 // 返回true代表文件已经上传过了  不需要再上传其他分片   实现妙传   
-                // 只会发送一次get请求   之后每个分片在上传前都会经过这个方法来判断是否需要上传  
+                // 只会发送一次get请求   之后每个分片在上传前都会通过过这个get请求的返回值来判断是否需要上传  
                 // 从而实现后端返回（已上传的分片列表  这里判断哪些需要上传 实现断点续传）
                 // 先进入这里 之后发送post方法上传分片
                 checkChunkUploadedByResponse: (chunk, message) => {
                     let res = JSON.parse(message);
                     console.log(res)
                     if (res.code != 200) {
-                        chunk.file.error=true
+                        chunk.file.error = true
                         this.$message.error(res.message);
                         return;
                     }
@@ -198,11 +213,10 @@ export default {
                         console.log("秒传文件")
                         return true;
                     } else if (res.data.isMerge) {
-                        console.log("合并文件")
+                        console.log("合并文件成功")
                         return true;
                     }
                     console.log("继续上传第" + chunk.offset + "个分片")
-                    console.log((res.data.chunkExists || []).indexOf(chunk.offset + 1) >= 0)
                     return (res.data.chunkExists || []).indexOf(chunk.offset + 1) >= 0
                 },
 
@@ -218,6 +232,7 @@ export default {
                 paused: '暂停',
                 waiting: '等待中...',
             },
+
             // ======================================================
             // 搜索表单数据
             searchForm: {},
@@ -229,20 +244,22 @@ export default {
             pageNumber: 1,
             //当前每页条数
             pageSize: 5,
+            // 视频预览
+            videoPreview: false,
+            videoUrl: "",
 
         }
     },
     mounted() {
         this.getTableData();
     },
-
     methods: {
         resetSearch() {
             this.searchForm = {}
             this.getTableData()
         },
-        search(){
-            this.pageNumber=1;
+        search() {
+            this.pageNumber = 1;
             this.getTableData();
         },
         async getTableData() {
@@ -265,30 +282,30 @@ export default {
         getSize(value) {
             this.pageSize = value;
         },
-        // 下载文件
-        upload(url, originalName) {
-            console.log(url, originalName)
-            // 创建一个<a>标签
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = originalName;
-            link.target = '_blank';
-            // 模拟点击链接实现下载
-            link.click();
+        preview(fileUrl) {
+            this.videoPreview = true
+            this.videoUrl = fileUrl
         },
-       async deleteFile(ossId,url){
-            const data=[{
-                "ossId":ossId,
-                "url":url
+        // 下载文件
+        async upload(url, originalName) {
+            window.open(url)
+        },
+        async deleteFile(ossId, url) {
+            const data = [{
+                "ossId": ossId,
+                "url": url
             }]
-           const res= await deletes(data)
-           this.$message.success("删除成功");
-           this.getTableData()
+            const res = await deletes(data)
+            this.$message.success("删除成功");
+            this.getTableData()
+        },
+        avatarError() {
+            return true
         },
 
         //     ========================================分片上传
         getChunkSize() {
-            return 1024 * 10;
+            return 1024 * 1024 * 5;
         },
 
         drawerClick() {
@@ -297,41 +314,23 @@ export default {
 
         // 添加了一个文件事件
         onFileAdded(file, event) {
-            console.log(file)
-            // 检测是否拥有上传权限
-            // mergeChunks();
 
+            file.hqh = "123"
             /*
-            *  计算文件 MD5，并添加下载历史
+            *  计算文件 MD5
             * */
             this.getFileMD5(file, async (md5) => {
-
-                // 拿着md5以及file.chunks.length  添加一条下载的历史 用于展示已上传的进度    后端在文件下载完成并和并之后删除历史记录
-                // const data={
-                //     "fileName":file.name,
-                //     "identitifier":md5,
-                //     "chunksTotal":file.chunks.length,
-                // }
-
                 if (md5 !== "") {
                     // 修改文件唯一标识
                     file.uniqueIdentifier = md5;
-                    this.fileStatus.paused = "暂停"
+                    // 获取此次文件上传会话id
+                    const data = {
+                        "identifier": file.uniqueIdentifier,
+                        "filename": file.name
+                    }
+                    const res = await getUploadId(data)
+                    this.uploadId = res.data
                     file.resume();
-                    // // 请求后台判断是否上传
-                    // const data = {
-                    //     'totalSize': file.size,
-                    //     'identifier': md5
-                    // }
-                    // const res = await checkFileMd5(data)
-                    // if (res.data.isExist) {
-                    //     this.fileStatus.success = 'md5检测秒传文件';
-                    //     file.resume(); //开始上传
-                    // } else {
-                    //     // 恢复上传
-                    //     this.fileStatus.paused="文件MD5中计算完成"
-                    //     file.resume(); //开始上传
-                    // }
                 }
             });
         },
@@ -343,7 +342,9 @@ export default {
                 'totalChunks': file.chunks.length,
                 'identifier': file.uniqueIdentifier,
                 'filename': file.name,
-                'totalSize': file.size
+                'totalSize': file.size,
+                "relativePath": file.relativePath,
+                "uploadId": this.uploadId
             }
             // 发送请求 合并分片
             const res = await mergeChunks(data)
@@ -436,6 +437,7 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
 }
+
 /* ============================================================================== */
 
 .table {
@@ -457,6 +459,10 @@ export default {
     text-align: center;
 }
 
+:deep .el-dialog__body {
+    display: flex;
+    justify-content: center;
+}
 
 
 .input {
