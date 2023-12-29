@@ -1,7 +1,6 @@
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
 <template>
     <div id="page">
-
-
         <el-drawer title="文件上传" :visible.sync="drawer" :direction="direction">
             <!-- <span>文件管理</span> -->
             <uploader :options="options" :autoStart="false" :fileStatusText="fileStatus" @file-added="onFileAdded"
@@ -62,9 +61,6 @@
 
                 <el-button size="medium" type="primary" plain icon="el-icon-download" :disabled="false"
                     @click="drawerClick()">上传文件</el-button>
-                <!-- <el-button @click="drawerClick"  type="primary" style="margin-left: 16px;" icon="el-icon-upload">
-            上传文件
-        </el-button> -->
             </el-row>
         </div>
 
@@ -82,7 +78,7 @@
                         <el-avatar :size="45" :src="scope.row.url" fit="contain"
                             style="background-color: #fff;padding: 5px;" @error="avatarError()">
                             <img v-if="scope.row.fileSuffix === '.jpg' || scope.row.fileSuffix === '.png' || scope.row.fileSuffix === '.jpeg'"
-                                src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
+                                src="http://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
                             <img v-else-if="scope.row.fileSuffix === '.gif'" src="" />
                             <img v-else-if="scope.row.fileSuffix === '.mp3'"
                                 src="http://47.120.8.164:9100/static/icon/mp3.png" />
@@ -136,7 +132,7 @@
         </Pagination>
 
         <!-- 视频预览 -->
-        <el-dialog title="预览" :visible.sync="videoPreview" >
+        <el-dialog title="预览" :visible.sync="videoPreview">
             <video alt="视频预览" width="700px" height="400px" :src="videoUrl" />
         </el-dialog>
 
@@ -248,12 +244,19 @@ export default {
             videoPreview: false,
             videoUrl: "",
 
+            // ======================================
+
+
         }
     },
     mounted() {
         this.getTableData();
     },
     methods: {
+        
+
+
+
         resetSearch() {
             this.searchForm = {}
             this.getTableData()
@@ -282,9 +285,9 @@ export default {
         getSize(value) {
             this.pageSize = value;
         },
-        preview(fileUrl) {
+        preview(url) {
             this.videoPreview = true
-            this.videoUrl = fileUrl
+            this.videoUrl = url
         },
         // 下载文件
         async upload(url, originalName) {
@@ -321,6 +324,7 @@ export default {
             * */
             this.getFileMD5(file, async (md5) => {
                 if (md5 !== "") {
+                    this.fileStatus.paused = "暂停中"
                     // 修改文件唯一标识
                     file.uniqueIdentifier = md5;
                     // 获取此次文件上传会话id
@@ -420,7 +424,7 @@ export default {
 
 <style scoped>
 .uploader-example {
-    width: 400px;
+    width: 600px;
     padding: 15px;
     margin: 40px auto 0;
     font-size: 12px;
