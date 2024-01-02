@@ -1,4 +1,3 @@
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
 <template>
     <div id="page">
         <el-drawer title="文件上传" :visible.sync="drawer" :direction="direction">
@@ -25,7 +24,7 @@
         <div class="input">
             <div class="input-font">
                 <div class="fontdiv">文件名</div>
-                <el-input placeholder="请输入文件名" v-model="searchForm.fileName" clearable size="medium"></el-input>
+                <el-input placeholder="请输入文件名" v-model="searchForm.originalName" clearable size="medium"></el-input>
             </div>
 
             <div class="input-font">
@@ -156,7 +155,7 @@ export default {
             drawer: false,
             // 抽屉打开的放向
             direction: "rtl",
-            uploadId: "123",
+            uploadId: "",
             options: {
                 target: "/api/chunk/upload", //目标上传地址URL，默认值为 '/'   这个请求不会经过request.js  但是会代理api路径
                 // 是否开启服务器分片校验。默认为 true   开启后文件上传时会同时向target路径发送get请求效验分片
@@ -324,7 +323,7 @@ export default {
             * */
             this.getFileMD5(file, async (md5) => {
                 if (md5 !== "") {
-                    this.fileStatus.paused = "暂停中"
+                    // this.fileStatus.paused = "暂停中"
                     // 修改文件唯一标识
                     file.uniqueIdentifier = md5;
                     // 获取此次文件上传会话id
@@ -352,8 +351,12 @@ export default {
             }
             // 发送请求 合并分片
             const res = await mergeChunks(data)
-            console.log("文件上传成功")
-            // this.getTableData()
+            if(res.data.isMerge){
+                this.$message.success("文件上传成功")
+                this.getTableData()
+                return;
+            }
+            this.$message.error("文件上传失败");
         },
         // 上传过程中出错了
         onFileError(rootFile, file, message, chunk) {

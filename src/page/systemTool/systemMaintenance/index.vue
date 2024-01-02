@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <a href="http://127.0.0.1:7700/#/oms/workflow" target="_blank"><button>点击跳转5</button></a>
+    <div class="iframe-container">
+        <iframe src="https://powerjob.hqh.wiki/"  width="100%" height="100%"></iframe>
     </div>
 </template>
 
@@ -9,7 +9,6 @@ export default {
     name:'systemMaintenance',
     data() {
         return {
-            
         };
     },
     created() {
@@ -23,5 +22,12 @@ export default {
 }
 </script>
 <style scoped>
+.iframe-container {
+  width: 100%;
+  height: 100%;
+}
 
+iframe {
+  height: 82vh;
+}
 </style>
