@@ -14,3 +14,15 @@ export const addUserInfo = (data) => service({
     method: "post",
     data: data,
 });
+
+export const updateUserInfo = (data) => service({
+    url: 'user/update',
+    method: "post",
+    data: data,
+});
+
+export const deletesUserInfo = (data) => service({
+    url: 'user/deletes',
+    method: "post",
+    data: data,
+});
