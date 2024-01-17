@@ -62,10 +62,13 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="phonenumber" label="联系方式" min-width="150"></el-table-column>
-
+                <el-table-column prop="roleList" label="角色" min-width="120">
+                    <template #default="scope">
+                        <el-tag v-for="item in scope.row.roleList" :key="item.id">{{ item.roleName  }}</el-tag>
+                    </template> 
+                </el-table-column>
                 <el-table-column prop="createTime" label="创建时间" min-width="160"></el-table-column>
                 <el-table-column prop="updateTime" label="更新时间" min-width="160"></el-table-column>
-
                 <el-table-column prop="status" label="状态" min-width="90">
                     <template #default="scope">
                         <div @click="changeStatus(scope.row)">
@@ -105,7 +108,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="角色" prop="role">
-                    <el-select v-model="updateForm.role" filterable multiple placeholder="请选择">
+                    <el-select v-model="updateForm.role" filterable multiple placeholder="请选择" @change="changeSelect">
                         <el-option v-for="item in roleData" :key="item.roleId" :label="item.roleName" :value="item.roleId">
                         </el-option>
                     </el-select>
@@ -236,6 +239,7 @@ export default {
             }
             const data = this.searchForm
             const res = await getAllData(page, data);
+            
             this.tableData = res.data.rows
             this.total = parseInt(res.data.total)
         },
@@ -281,12 +285,6 @@ export default {
                     message: '已取消删除'
                 });
             });
-
-
-
-
-
-
         },
         async deleteList() {
             const data = this.selectedRows
@@ -302,13 +300,14 @@ export default {
         // 修改==============
         editRow(row) {
             this.updateForm = row
-            const roleData = row.roleList.map(role => role.roleId);
             this.updateFormVisible = true
             getRoleList().then(res => {
                 this.roleData = res.data
-                this.updateForm.role = roleData
-
+                this.updateForm.role = row.roleList.map(role => role.roleId);
             })
+        },
+        changeSelect(){
+            this.$forceUpdate()
         },
         async editSubmit() {
             const res = await updateUserInfo(this.updateForm)

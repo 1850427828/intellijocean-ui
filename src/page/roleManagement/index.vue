@@ -46,13 +46,13 @@
                 </el-table-column> -->
                 <el-table-column prop="roleName" label="角色名称" min-width="120"></el-table-column>
                 <el-table-column prop="roleKey" label="权限字符" min-width="80"></el-table-column>
-                <el-table-column prop="roleSort" label="排序" min-width="150">
-                    <template #default="scope">
-                        <el-tag type="info">{{ scope.row.roleSort }}</el-tag>
-                    </template>
-                </el-table-column>
                 <el-table-column prop="createTime" label="创建时间" min-width="160"></el-table-column>
                 <el-table-column prop="updateTime" label="更新时间" min-width="160"></el-table-column>
+                <el-table-column prop="roleSort" label="排序" min-width="80">
+                    <template #default="scope">
+                        <el-tag >{{ scope.row.roleSort }}</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="status" label="状态" min-width="90">
                     <template #default="scope">
                         <div @click="changeStatus(scope.row)">
