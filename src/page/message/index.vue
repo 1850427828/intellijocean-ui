@@ -1,43 +1,90 @@
 <template>
-    <div>
-
-        <!-- 页头搜索======================================================== -->
-        <!-- 页头搜索 -->
-        <div class="input">
-            <div class="input-font">
-                <div class="fontdiv">用户昵称</div>
-                <el-input placeholder="请输入用户昵称" v-model="searchForm.nickname" clearable size="medium"></el-input>
-            </div>
-            <div class="input-font">
-                <div class="fontdiv">手机号码</div>
-                <el-input placeholder="请输入手机号码" v-model="searchForm.phonenumber" clearable size="medium"></el-input>
-            </div>
-            <div class="fontdiv">性 别</div>
-            <el-select v-model="searchForm.gender" placeholder="请选择性别" clearable style="width: 160px" size="medium">
-                <el-option label="男" value="1" />
-                <el-option label="女" value="0" />
-            </el-select>
-            <div class="fontdiv">状 态</div>
-            <el-select v-model="searchForm.status" placeholder="请选择状态" clearable style="width: 160px" size="medium">
-                <el-option label="启用" value="0" />
-                <el-option label="禁用" value="1" />
-            </el-select>
-            <div class="input-button input-font">
-                <el-button size="medium" type="primary" icon="el-icon-search" :loading="false"
-                    @click="getTableData()">搜索</el-button>
-                <el-button size="medium" plain icon="el-icon-refresh" @click="resetSearch()">重置</el-button>
-            </div>
-        </div>
-        <!-- 页头按钮======================================================== -->
-        <!-- 页头按钮 -->
-        <div class="button">
-            <el-row>
-                <el-button size="medium" type="primary" plain icon="el-icon-download" :disabled="false"
-                    @click="add()">添加</el-button>
-                <el-button size="medium" type="danger" plain icon="el-icon-download" :disabled="false"
-                    @click="deleteList()">批量删除</el-button>
-            </el-row>
-        </div>
+  <div>
+    <!-- 页头搜索======================================================== -->
+    <!-- 页头搜索 -->
+    <div class="input">
+      <div class="input-font">
+        <div class="fontdiv">用户昵称</div>
+        <el-input
+          placeholder="请输入用户昵称"
+          v-model="searchForm.nickname"
+          clearable
+          size="medium"
+        ></el-input>
+      </div>
+      <div class="input-font">
+        <div class="fontdiv">手机号码</div>
+        <el-input
+          placeholder="请输入手机号码"
+          v-model="searchForm.phonenumber"
+          clearable
+          size="medium"
+        ></el-input>
+      </div>
+      <div class="fontdiv">性 别</div>
+      <el-select
+        v-model="searchForm.gender"
+        placeholder="请选择性别"
+        clearable
+        style="width: 160px"
+        size="medium"
+      >
+        <el-option label="男" value="1" />
+        <el-option label="女" value="0" />
+      </el-select>
+      <div class="fontdiv">状 态</div>
+      <el-select
+        v-model="searchForm.status"
+        placeholder="请选择状态"
+        clearable
+        style="width: 160px"
+        size="medium"
+      >
+        <el-option label="启用" value="0" />
+        <el-option label="禁用" value="1" />
+      </el-select>
+      <div class="input-button input-font">
+        <el-button
+          size="medium"
+          type="primary"
+          icon="el-icon-search"
+          :loading="false"
+          @click="getTableData()"
+          >搜索</el-button
+        >
+        <el-button
+          size="medium"
+          plain
+          icon="el-icon-refresh"
+          @click="resetSearch()"
+          >重置</el-button
+        >
+      </div>
+    </div>
+    <!-- 页头按钮======================================================== -->
+    <!-- 页头按钮 -->
+    <div class="button">
+      <el-row>
+        <el-button
+          size="medium"
+          type="primary"
+          plain
+          icon="el-icon-download"
+          :disabled="false"
+          @click="add()"
+          >添加</el-button
+        >
+        <el-button
+          size="medium"
+          type="danger"
+          plain
+          icon="el-icon-download"
+          :disabled="false"
+          @click="deleteList()"
+          >批量删除</el-button
+        >
+      </el-row>
+    </div>
 
         <!-- 表格区域======================================================== -->
         <!-- 列表渲染 -->
@@ -127,56 +174,93 @@
             </el-form>
         </el-dialog>
 
-        <!-- 添加 ===================================================================== -->
-        <el-dialog title="添加" :visible.sync="addFormVisible">
-            <el-form :model="addForm" :rules="rules" ref="addForm" label-width="110px" class="demo-ruleForm">
-                <el-form-item label="用户昵称" prop="nickname">
-                    <el-input v-model="addForm.nickname" placeholder="请输入用户昵称"></el-input>
-                </el-form-item>
-                <el-form-item label="手机号码" prop="phonenumber">
-                    <el-input v-model="addForm.phonenumber" placeholder="请输入昵称"></el-input>
-                </el-form-item>
-                <el-form-item label="用户名" prop="username">
-                    <el-input v-model="addForm.username" placeholder="请输入用户名"></el-input>
-                </el-form-item>
-                <el-form-item label="密码" prop="password">
-                    <el-input v-model="addForm.password" placeholder="请输入用户密码"></el-input>
-                </el-form-item>
-                <el-form-item label="性别" prop="gender">
-                    <el-select v-model="addForm.gender" placeholder="请选择" style="width: 240px; ">
-                        <el-option label="男" value="1"></el-option>
-                        <el-option label="女" value="0"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="角色" prop="role">
-                    <el-select v-model="addForm.role" filterable multiple placeholder="请选择">
-                        <el-option v-for="item in roleData" :key="item.roleId" :label="item.roleName" :value="item.roleId">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="addForm.email" placeholder="请输入邮箱"></el-input>
-                </el-form-item>
-                <el-form-item label="备注" prop="remark">
-                    <el-input v-model="addForm.remark" placeholder="请输入备注"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button @click="addSubmit()" type="primary" :plain="true">确认</el-button>
-                    <el-button @click="resetForm()">重置</el-button>
-                    <el-button @click="addFormVisible = false">取 消</el-button>
-                </el-form-item>
-
-            </el-form>
-        </el-dialog>
-
-
-
-
-    </div>
+    <!-- 添加 ===================================================================== -->
+    <el-dialog title="添加" :visible.sync="addFormVisible">
+      <el-form
+        :model="addForm"
+        :rules="rules"
+        ref="addForm"
+        label-width="110px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="用户昵称" prop="nickname">
+          <el-input
+            v-model="addForm.nickname"
+            placeholder="请输入用户昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="手机号码" prop="phonenumber">
+          <el-input
+            v-model="addForm.phonenumber"
+            placeholder="请输入昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="用户名" prop="username">
+          <el-input
+            v-model="addForm.username"
+            placeholder="请输入用户名"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input
+            v-model="addForm.password"
+            placeholder="请输入用户密码"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="gender">
+          <el-select
+            v-model="addForm.gender"
+            placeholder="请选择"
+            style="width: 240px"
+          >
+            <el-option label="男" value="1"></el-option>
+            <el-option label="女" value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="角色" prop="role">
+          <el-select
+            v-model="addForm.role"
+            filterable
+            multiple
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in roleData"
+              :key="item.roleId"
+              :label="item.roleName"
+              :value="item.roleId"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="addForm.email" placeholder="请输入邮箱"></el-input>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input
+            v-model="addForm.remark"
+            placeholder="请输入备注"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="addSubmit()" type="primary" :plain="true"
+            >确认</el-button
+          >
+          <el-button @click="resetForm()">重置</el-button>
+          <el-button @click="addFormVisible = false">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+  </div>
 </template>
 <script>
-import { getAllData, deletesUserInfo, updateUserInfo, addUserInfo } from "@/api/message"
-import { getRoleList } from "@/api/role"
+import {
+  getAllData,
+  deletesUserInfo,
+  updateUserInfo,
+  addUserInfo,
+} from "@/api/message";
+import { getRoleList } from "@/api/role";
 
 import Pagination from "@/components/Pagination";
 export default {
@@ -359,55 +443,65 @@ export default {
 </script>
 <style scoped>
 .table {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 /* 表格 */
-:deep .table .el-table .el-table__header-wrapper .el-table__header .el-table__cell {
-    padding: 7px 0;
-    font-size: 14px;
-    color: #999;
-    font-weight: 600px;
-    text-align: center;
-    background-color: #f2f2f2;
+:deep
+  .table
+  .el-table
+  .el-table__header-wrapper
+  .el-table__header
+  .el-table__cell {
+  padding: 7px 0;
+  font-size: 14px;
+  color: #999;
+  font-weight: 600px;
+  text-align: center;
+  background-color: #f2f2f2;
 }
 
-:deep .el-table .el-table__body-wrapper .el-table__body .el-table__row .el-table__cell .cell {
-    text-overflow: clip;
-    text-align: center;
+:deep
+  .el-table
+  .el-table__body-wrapper
+  .el-table__body
+  .el-table__row
+  .el-table__cell
+  .cell {
+  text-overflow: clip;
+  text-align: center;
 }
 
 :deep .el-dialog__body {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
-
 .input {
-    display: flex;
-    margin-top: 0;
+  display: flex;
+  margin-top: 0;
 }
 
 .input-font {
-    width: 370px;
-    display: flex;
+  width: 370px;
+  display: flex;
 }
 
 .input-button {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 .fontdiv {
-    font-weight: 600;
-    font-size: 15px;
-    width: 110px;
-    line-height: 36px;
-    text-align: center;
-    color: #999;
+  font-weight: 600;
+  font-size: 15px;
+  width: 110px;
+  line-height: 36px;
+  text-align: center;
+  color: #999;
 }
 
 .table,
 .button {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 </style>
