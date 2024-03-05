@@ -26,3 +26,9 @@ export const deletesUserInfo = (data) => service({
     method: "post",
     data: data,
 });
+
+export const exportUserData = () =>service({
+    url: 'user/export',
+    method: "get",
+    responseType: "blob",
+})

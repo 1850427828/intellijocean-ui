@@ -80,16 +80,6 @@ const router = new VueRouter({
                         },
                     ]
                 },
-                // {
-                //     path: "codeGeneration/editor",
-                //     component: () => import("@/page/systemTool/codeGeneration/editor"),
-                //     name: '/systemTool/codeGeneration/editor',
-                //     meta: {
-                //         title: "修改连接表",
-                //         requiresAuth: true, //登录权限
-                //         activeMenu: '/systemTool/codeGeneration'
-                //     }
-                // },
                 {
                     path: "systemMaintenance",
                     component: () => import("@/page/systemTool/systemMaintenance"),
@@ -148,6 +138,25 @@ const router = new VueRouter({
                         requiresAuth: true, //登录权限
                         permissions: ['admin'],
                         activeMenu: '/roleManagement'
+                    }
+                },
+            ]
+        },
+        {
+            path: "/interfaceManagement",
+            hidden: true,
+            component: () => import("@/layout"),
+            redirect: '/interfaceManagement',
+            children: [
+                {
+                    path: "/interfaceManagement",
+                    component: () => import("@/page/interfaceManagement"),
+                    name: '/interfaceManagement',
+                    meta: {
+                        title: "开放API管理",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/interfaceManagement'
                     }
                 },
             ]

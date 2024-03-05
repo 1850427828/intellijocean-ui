@@ -292,7 +292,7 @@ export default {
               this.webSocket.close();
               this.checkScan();
             } else {
-              this.$message.error("webSocket服务异常");
+              this.$message.error("微信扫码登录失败");
             }
           };
         } else {

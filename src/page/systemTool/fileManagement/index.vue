@@ -252,7 +252,7 @@ export default {
         this.getTableData();
     },
     methods: {
-        
+
 
 
 
@@ -290,6 +290,18 @@ export default {
         },
         // 下载文件
         async upload(url, originalName) {
+            // download(url,originalName)
+            // var downloadTask = browser.downloads.download({
+            //     url: url,
+            //     filename: originalName,
+            //     conflictAction: "uniquify",
+            // });
+            // downloadTask.then(
+            // (id)=>{
+            //     console.log("开始下载",id)
+            // },(error)=>{
+            //     console.log("下载失败",error)
+            // })
             window.open(url)
         },
         async deleteFile(ossId, url) {
@@ -323,7 +335,6 @@ export default {
             * */
             this.getFileMD5(file, async (md5) => {
                 if (md5 !== "") {
-                    // this.fileStatus.paused = "暂停中"
                     // 修改文件唯一标识
                     file.uniqueIdentifier = md5;
                     // 获取此次文件上传会话id
@@ -334,12 +345,17 @@ export default {
                     const res = await getUploadId(data)
                     this.uploadId = res.data
                     file.resume();
+
                 }
             });
         },
         // 一个文件上传成功事件
         async onFileSuccess(rootFile, file, message, chunk) {
-            console.log(file)
+            const uploadResponse = JSON.parse(message);
+            if (uploadResponse.data.isExist) {
+                this.$message.success("文件上传成功")
+                return
+            }
             // 上传成功  请求合并
             const data = {
                 'totalChunks': file.chunks.length,
@@ -351,7 +367,7 @@ export default {
             }
             // 发送请求 合并分片
             const res = await mergeChunks(data)
-            if(res.data.isMerge){
+            if (res.data.isMerge) {
                 this.$message.success("文件上传成功")
                 this.getTableData()
                 return;

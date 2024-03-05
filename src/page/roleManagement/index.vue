@@ -50,7 +50,7 @@
                 <el-table-column prop="updateTime" label="更新时间" min-width="160"></el-table-column>
                 <el-table-column prop="roleSort" label="排序" min-width="80">
                     <template #default="scope">
-                        <el-tag >{{ scope.row.roleSort }}</el-tag>
+                        <el-tag  style="width: 40px;">{{ scope.row.roleSort }}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="status" label="状态" min-width="90">

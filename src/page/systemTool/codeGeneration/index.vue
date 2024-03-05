@@ -258,13 +258,6 @@
           class="demo-ruleForm"
         >
           <div class="widthbox">
-            <el-form-item label="生成业务名">
-              <el-input
-                v-model="strategyData.serverName"
-                placeholder="请输入生成业务名"
-              ></el-input>
-            </el-form-item>
-
             <el-form-item label="生成包路径">
               <el-input
                 v-model="strategyData.packageName"
@@ -758,7 +751,6 @@ export default {
         id: getDataBaseId(),
         table: {
           author: this.strategyData.author,
-          serveName: this.strategyData.serveName,
           packageName: this.strategyData.packageName,
           templates: this.strategyData.templates,
           query: this.strategyData.queryFunction,
