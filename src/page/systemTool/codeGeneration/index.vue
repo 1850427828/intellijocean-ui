@@ -414,7 +414,7 @@ export default {
           {
             element: ".page",
             popover: {
-              title: "SparcFusion",
+              title: "intellijocean",
               description: "欢迎来到代码生成器！",
               side: "left",
               align: "start",
@@ -510,7 +510,7 @@ export default {
       // driverObj.highlight({
       //   element: ".page",
       //   popover: {
-      //     title: "SparcFusion",
+      //     title: "intellijocean",
       //     description: "欢迎来到代码生成器",
       //   },
       // });
@@ -523,7 +523,7 @@ export default {
           {
             element: ".page",
             popover: {
-              title: "SparcFusion",
+              title: "intellijocean",
               description: "欢迎来到代码生成器！",
               side: "left",
               align: "start",
