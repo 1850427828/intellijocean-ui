@@ -14,8 +14,8 @@ export const getCaptcha = ()=>service({
 });
 
 
-//第三方登录:gitee 跳转gitee授权
-export const giteeLogin = (data)=>service({
+//第三方登录:Gitee 跳转gitee授权
+export const giteeLogin = ()=>service({
     url:'/giteeLogin',
     method:"get",
 });

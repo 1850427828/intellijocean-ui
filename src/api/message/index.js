@@ -1,6 +1,7 @@
-import service from "@/utils/request";
 
 //分页查询所有
+import service from "@/utils/request";
+
 export const getAllData = (query, data) => service({
     url: '/user/queryList',
     method: "post",

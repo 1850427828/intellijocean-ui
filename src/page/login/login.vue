@@ -212,7 +212,7 @@ export default {
   },
   destroyed() {
     if (this.webSocket != null) {
-      if (this.webSocket.readyState == 1) {
+      if (this.webSocket.readyState === 1) {
         // 手动关闭
         this.webSocket.close();
       }
@@ -244,12 +244,12 @@ export default {
         console.log(res);
         setToken(res.data);
         // localStorage.setItem("userId", res.data.id);
-        this.$router.push({
+        await this.$router.push({
           path: "/home",
         });
       } catch (error) {
         // 刷新验证码
-        this.getCaptcha();
+        await this.getCaptcha();
         this.ruleForm.code=""
         console.log(error.message);
       }
@@ -282,7 +282,7 @@ export default {
       this.showEmailForm = false;
       try {
         const res = await weChatLogin();
-        if (res.code == 200) {
+        if (res.code === 200) {
           console.log(res);
           this.qrcodeImage = res.data.url;
           this.qrCodeId = res.data.wxScanUuid;
@@ -318,7 +318,7 @@ export default {
         } else if (res.data) {
           this.$message.success("登陆成功");
           setToken(res.data);
-          this.$router.push({
+          await this.$router.push({
             path: "/home",
           });
         } else {
@@ -357,7 +357,7 @@ export default {
         console.log(res);
         this.$message.success("登陆成功");
         setToken(res.data);
-        this.$router.push({
+        await this.$router.push({
           path: "/home",
         });
       } catch (error) {
@@ -647,7 +647,7 @@ form input.submit:hover {
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
-  /* background-image: url("../../assets/images/loginbg.jpg"); */
+  /* background-image: url("../../assets/images/login.jpg"); */
   opacity: 0.9;
   position: fixed;
   z-index: 2;
