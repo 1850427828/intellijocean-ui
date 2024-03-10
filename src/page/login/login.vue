@@ -66,7 +66,7 @@
                   </div>
                 </el-image>
               </p>
-              <p style="position: relative" >
+              <p style="position: relative">
                 <input
                   type="button"
                   class="submit"
@@ -76,7 +76,7 @@
                 <a href="#" class="findPassword">找回密码</a>
               </p>
             </form>
-            <form action="" v-else-if="showEmailForm"  >
+            <form action="" v-else-if="showEmailForm">
               <p style="margin-top: 78px">
                 <input
                   type="text"
@@ -205,8 +205,6 @@ export default {
     };
   },
 
-
-
   mounted() {
     this.getCaptcha();
   },
@@ -243,14 +241,14 @@ export default {
         this.$message.success("登陆成功");
         console.log(res);
         setToken(res.data);
-        // localStorage.setItem("userId", res.data.id);
+        localStorage.setItem("userRole", "admin1");
         await this.$router.push({
           path: "/home",
         });
       } catch (error) {
         // 刷新验证码
         await this.getCaptcha();
-        this.ruleForm.code=""
+        this.ruleForm.code = "";
         console.log(error.message);
       }
     },
@@ -345,7 +343,6 @@ export default {
         console.log(res);
         this.emailForm.emailUuid = res.data;
       } catch (error) {
-        
         console.log(error.message);
       }
     },
@@ -361,7 +358,7 @@ export default {
           path: "/home",
         });
       } catch (error) {
-        this.emailForm.emailCode=""
+        this.emailForm.emailCode = "";
         console.log(error.message);
       }
     },

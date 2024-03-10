@@ -1,24 +1,41 @@
 <template>
   <div class="sideNav">
     <div class="sideNav-top">
-      <img src="~@/assets/images/robot.png" alt="" style="width: 30px; margin-right: 10px" />
-      <span class="text-weight" style="vertical-align: bottom; color: #333"></span>
+      <img
+        src="~@/assets/images/robot.png"
+        alt=""
+        style="width: 30px; margin-right: 10px"
+      />
+      <span
+        class="text-weight"
+        style="vertical-align: bottom; color: #333"
+      ></span>
     </div>
     <div class="sideNav-list">
       <el-scrollbar wrap-class="scrollbar-wrapper">
-        <el-menu :router="true" :default-active="index" :collapse="false" background-color="#a1a6bb"
-          active-text-color="#fff" :unique-opened="true" :collapse-transition="true" mode="vertical"
-          @select="handleSelect" @open="handleOpen" @close="handleClose">
+        <el-menu
+          :router="true"
+          :default-active="index"
+          :collapse="false"
+          background-color="#a1a6bb"
+          active-text-color="#fff"
+          :unique-opened="true"
+          :collapse-transition="true"
+          mode="vertical"
+          @select="handleSelect"
+          @open="handleOpen"
+          @close="handleClose"
+        >
           <el-menu-item index="/home">
             <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
 
-          <el-menu-item index="/message">
+          <el-menu-item index="/message" v-if="userRole">
             <i class="el-icon-user-solid"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
-          <el-menu-item index="/roleManagement">
+          <el-menu-item index="/roleManagement" v-if="userRole">
             <i class="el-icon-user-solid"></i>
             <span slot="title">角色管理</span>
           </el-menu-item>
@@ -44,9 +61,9 @@
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/interfaceManagement">
-              <i class="el-icon-chat-line-round"></i>
-              <span slot="title">开放Api管理</span>
-            </el-menu-item>
+            <i class="el-icon-chat-line-round"></i>
+            <span slot="title">开放Api管理</span>
+          </el-menu-item>
         </el-menu>
       </el-scrollbar>
     </div>
@@ -58,9 +75,17 @@ export default {
   data() {
     return {
       index: "",
+      //管理权限
+      userRole: false,
     };
   },
   mounted() {
+    const userRole = localStorage.getItem("userRole");
+    if (userRole == "admin") {
+      this.userRole = true;
+    } else {
+      this.userRole = false;
+    }
     this.getPath();
   },
 
@@ -110,7 +135,14 @@ export default {
   border-right: 0;
 }
 
-:deep .el-row .el-col .el-menu-vertical-demo .el-submenu .el-menu .el-menu-item-group .el-menu-item-group__title {
+:deep
+  .el-row
+  .el-col
+  .el-menu-vertical-demo
+  .el-submenu
+  .el-menu
+  .el-menu-item-group
+  .el-menu-item-group__title {
   display: none;
 }
 
