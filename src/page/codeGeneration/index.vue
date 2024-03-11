@@ -336,13 +336,11 @@ import {
   codeGen, //代码生成
   getGenStrategy, //获取当前全局生成策略
   editGenStrategy, //代码生成修改全局策略
-} from "@/api/systemTool/codeGeneration";
+} from "@/api/codeGeneration";
 import {
   getNewTime,
   setCreateTime,
-  getCreateTime,
   setUpdateTime,
-  getUpdateTime,
 } from "@/utils/time";
 import { getDataBaseId, setDataBaseId } from "@/utils/localStorage";
 import { driver } from "driver.js";
@@ -828,7 +826,7 @@ export default {
   .el-table__cell {
   font-size: 14px;
   color: #999;
-  font-weight: 600px;
+  font-weight: 600;
   text-align: center; 
 }
 

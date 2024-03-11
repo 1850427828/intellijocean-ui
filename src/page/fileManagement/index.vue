@@ -141,8 +141,8 @@
 
 import SparkMD5 from 'spark-md5'
 import { getToken } from '@/utils/auth'
-import { mergeChunks, queryTableData, deletes, download, getUploadId } from '@/api/systemTool/fileManagement'
-import Pagination from "@/components/Pagination";
+import { mergeChunks, queryTableData, deletes, download, getUploadId } from '@/api/fileManagement'
+import Pagination from "@/components/Pagination/index.vue";
 export default {
     name: "fileManagement",
     components: { Pagination },

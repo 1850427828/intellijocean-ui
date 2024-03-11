@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui';
-import { getToken } from '@/utils/auth'   //获取token
+import {getToken} from '@/utils/auth'   //获取token
 // import route from './route'
 // 使用插件
 Vue.use(VueRouter);
@@ -17,14 +17,18 @@ VueRouter.prototype.push = function (location, resolve, reject) {
     if (resolve && reject) {
         originPush.call(this, location, resolve, reject);
     } else {
-        originPush.call(this, location, () => { }, () => { });
+        originPush.call(this, location, () => {
+        }, () => {
+        });
     }
 }
 VueRouter.prototype.replace = function (location, resolve, reject) {
     if (resolve && reject) {
         originReplace.call(this, location, resolve, reject);
     } else {
-        originReplace.call(this, location, () => { }, () => { });
+        originReplace.call(this, location, () => {
+        }, () => {
+        });
     }
 }
 
@@ -47,61 +51,6 @@ const router = new VueRouter({
                         requiresAuth: true, //登录权限
                     }
                 }
-            ]
-        },
-        {
-            path: "/systemTool",
-            hidden: true,
-            component: () => import("@/layout"),
-            meta: {
-                title: "系统工具",
-            },
-            // redirect: '/systemTool/codeGeneration',
-            children: [
-                {
-                    path: "codeGeneration",
-                    component: () => import("@/page/systemTool/codeGeneration"),
-                    name: '/systemTool/codeGeneration',
-                    meta: {
-                        title: "代码生成",
-                        requiresAuth: true, //登录权限
-                        activeMenu: '/systemTool/codeGeneration'
-                    },
-                    children: [
-                        {
-                            path: "editor",
-                            component: () => import("@/page/systemTool/codeGeneration/editor"),
-                            name: '/systemTool/codeGeneration/editor',
-                            meta: {
-                                title: "修改连接表",
-                                requiresAuth: true, //登录权限
-                                activeMenu: '/systemTool/codeGeneration'
-                            }
-                        },
-                    ]
-                },
-                {
-                    path: "systemMaintenance",
-                    component: () => import("@/page/systemTool/systemMaintenance"),
-                    name: '/systemTool/systemMaintenance',
-                    meta: {
-                        title: "系统维护",
-                        requiresAuth: true, //登录权限
-                        permissions: ['admin'],
-                        activeMenu: '/systemTool/systemMaintenance'
-                    }
-                },
-                {
-                    path: "fileManagement",
-                    component: () => import("@/page/systemTool/fileManagement"),
-                    name: '/systemTool/fileManagement',
-                    meta: {
-                        title: "文件管理",
-                        requiresAuth: true, //登录权限
-                        permissions: ['admin'],
-                        activeMenu: '/systemTool/fileManagement'
-                    }
-                },
             ]
         },
         {
@@ -146,17 +95,120 @@ const router = new VueRouter({
             path: "/interfaceManagement",
             hidden: true,
             component: () => import("@/layout"),
-            redirect: '/interfaceManagement',
+            meta: {
+                title: "开放API管理",
+            },
+            // redirect: '/systemTool/codeGeneration',
             children: [
                 {
-                    path: "/interfaceManagement",
-                    component: () => import("@/page/interfaceManagement"),
-                    name: '/interfaceManagement',
+                    path: "apiMessage",
+                    component: () => import("@/page/interfaceManagement/APIMessage"),
+                    name: '/interfaceManagement/apiMessage',
                     meta: {
-                        title: "开放API管理",
+                        title: "API信息管理",
                         requiresAuth: true, //登录权限
                         permissions: ['admin'],
-                        activeMenu: '/interfaceManagement'
+                        activeMenu: '/interfaceManagement/apiMessage'
+                    }
+                },
+                {
+                    path: "rechargeManagement",
+                    component: () => import("@/page/interfaceManagement/RechargeManagement"),
+                    name: '/interfaceManagement/rechargeManagement',
+                    meta: {
+                        title: "API充值管理",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/interfaceManagement/rechargeManagement'
+                    }
+                },
+            ]
+        },
+        {
+            path: "/apiOnlineCall",
+            hidden: true,
+            component: () => import("@/layout"),
+            redirect: '/apiOnlineCall',
+            children: [
+                {
+                    path: "/apiOnlineCall",
+                    component: () => import("@/page/APIOnlineCall"),
+                    name: '/apiOnlineCall',
+                    meta: {
+                        title: "API在线调用",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/apiOnlineCall'
+                    }
+                }
+            ]
+        },
+        {
+            path: "/codeGeneration",
+            hidden: true,
+            component: () => import("@/layout"),
+            redirect: '/codeGeneration',
+            children: [
+                {
+                    path: "/codeGeneration",
+                    component: () => import("@/page/codeGeneration"),
+                    name: '/codeGeneration',
+                    meta: {
+                        title: "代码生成",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/codeGeneration'
+                    },
+                    children: [
+                        {
+                            path: "editor",
+                            component: () => import("@/page/codeGeneration/editor"),
+                            name: '/codeGeneration/editor',
+                            meta: {
+                                title: "修改连接表",
+                                requiresAuth: true, //登录权限
+                                activeMenu: '/codeGeneration'
+                            }
+                        },
+                    ]
+                },
+            ]
+        },
+        {
+            path: "/fileManagement",
+            hidden: true,
+            component: () => import("@/layout"),
+            redirect: '/fileManagement',
+            children: [
+                {
+                    path: "/fileManagement",
+                    component: () => import("@/page/fileManagement"),
+                    name: '/fileManagement',
+                    meta: {
+                        title: "文件管理",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/fileManagement'
+                    }
+                },
+            ]
+        },
+
+        {
+            path: "/systemMaintenance",
+            hidden: true,
+            component: () => import("@/layout"),
+            redirect: '/systemMaintenance',
+            children: [
+                {
+                    path: "/systemMaintenance",
+                    component: () => import("@/page/systemMaintenance"),
+                    name: '/systemMaintenance',
+                    meta: {
+                        title: "系统维护",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/systemMaintenance'
                     }
                 },
             ]

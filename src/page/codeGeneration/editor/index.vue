@@ -248,7 +248,7 @@ import _ from "lodash";
 import {
   getDetilData, //获取表详细信息
   editTableData, //修改表详细信息
-} from "@/api/systemTool/codeGeneration";
+} from "@/api/codeGeneration";
 import { getNewTime, setUpdateTime } from "@/utils/time";
 import { getDataBaseId } from "@/utils/localStorage";
 export default {

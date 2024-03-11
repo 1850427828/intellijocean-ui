@@ -1,32 +1,32 @@
 <template>
   <div>
     <vue-particles
-      color="#3c3c3c"
-      :particle-opacity="0.3"
-      :particles-number="80"
-      shape-type="circle"
-      :particle-size="4"
-      lines-color="#3c3c3c"
-      :lines-width="1"
-      :line-linked="true"
-      :line-opacity="0.2"
-      :lines-distance="260"
-      :move-speed="3"
-      :hover-effect="true"
-      hover-mode="grab"
-      :click-effect="true"
-      click-mode="push"
-      class="login-bg"
+        color="#3c3c3c"
+        :particle-opacity="0.3"
+        :particles-number="80"
+        shape-type="circle"
+        :particle-size="4"
+        lines-color="#3c3c3c"
+        :lines-width="1"
+        :line-linked="true"
+        :line-opacity="0.2"
+        :lines-distance="260"
+        :move-speed="3"
+        :hover-effect="true"
+        hover-mode="grab"
+        :click-effect="true"
+        click-mode="push"
+        class="login-bg"
     >
     </vue-particles>
     <div id="page" class="site">
       <div class="container">
         <div class="login">
           <div class="hero">
-            <h1>intellijocean<br />Hello</h1>
+            <h1>intellijocean<br/>Hello</h1>
             <!-- <p>如果你没有账号<br />可以<a href="#">点击这里</a>进行注册.</p> -->
             <p>
-              Every encounter is a collision of souls,<br />
+              Every encounter is a collision of souls,<br/>
               a profound connection that transcends mere chance
             </p>
           </div>
@@ -35,31 +35,31 @@
             <form action="" v-if="isShow">
               <p>
                 <input
-                  type="text"
-                  placeholder="用户名"
-                  v-model="ruleForm.username"
+                    type="text"
+                    placeholder="用户名"
+                    v-model="ruleForm.username"
                 />
               </p>
               <p class="password">
                 <input
-                  type="password"
-                  placeholder="密码"
-                  v-model="ruleForm.password"
+                    type="password"
+                    placeholder="密码"
+                    v-model="ruleForm.password"
                 />
                 <i class="ri-eye-off-line"></i>
               </p>
               <p class="code">
                 <input
-                  type="text"
-                  placeholder="验证码"
-                  v-model="ruleForm.code"
-                  class="codeInput"
-                  @keyup.enter="submitForm(ruleForm)"
+                    type="text"
+                    placeholder="验证码"
+                    v-model="ruleForm.code"
+                    class="codeInput"
+                    @keyup.enter="submitForm(ruleForm)"
                 />
                 <el-image
-                  class="codeImage"
-                  :src="'data:image/jpg;base64,' + img"
-                  @click="getCaptcha()"
+                    class="codeImage"
+                    :src="'data:image/jpg;base64,' + img"
+                    @click="getCaptcha()"
                 >
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>
@@ -68,10 +68,10 @@
               </p>
               <p style="position: relative">
                 <input
-                  type="button"
-                  class="submit"
-                  value="Login"
-                  @click="submitForm(ruleForm)"
+                    type="button"
+                    class="submit"
+                    value="Login"
+                    @click="submitForm(ruleForm)"
                 />
                 <a href="#" class="findPassword">找回密码</a>
               </p>
@@ -79,29 +79,29 @@
             <form action="" v-else-if="showEmailForm">
               <p style="margin-top: 78px">
                 <input
-                  type="text"
-                  placeholder="邮箱"
-                  v-model="emailForm.email"
+                    type="text"
+                    placeholder="邮箱"
+                    v-model="emailForm.email"
                 />
               </p>
               <p class="code">
                 <input
-                  type="text"
-                  placeholder="验证码"
-                  v-model="emailForm.emailCode"
-                  class="emailInput"
-                  @keyup.enter="emailSubmitForm()"
+                    type="text"
+                    placeholder="验证码"
+                    v-model="emailForm.emailCode"
+                    class="emailInput"
+                    @keyup.enter="emailSubmitForm()"
                 />
                 <span class="emailCode" @click="getEmailCode()"
-                  >发送验证码</span
+                >发送验证码</span
                 >
               </p>
               <p style="position: relative">
                 <input
-                  type="button"
-                  class="submit"
-                  value="Login"
-                  @click="emailSubmitForm()"
+                    type="button"
+                    class="submit"
+                    value="Login"
+                    @click="emailSubmitForm()"
                 />
                 <!-- <a href="#" class="findPassword">找回密码</a> -->
               </p>
@@ -121,18 +121,18 @@
               <ul>
                 <li @click="giteeLogin()">
                   <a href="#"
-                    ><img class="image" src="~@/assets/images/gitee.png" alt=""
+                  ><img class="image" src="~@/assets/images/gitee.png" alt=""
                   /></a>
                 </li>
 
                 <li @click="getEmailUuid()">
                   <a href="#"
-                    ><img class="image" src="~@/assets/images/email.png" alt=""
+                  ><img class="image" src="~@/assets/images/email.png" alt=""
                   /></a>
                 </li>
                 <li @click="wechatLogin()">
                   <a href="#"
-                    ><img
+                  ><img
                       class="image"
                       src="~@/assets/images/WeChart.png"
                       alt=""
@@ -140,7 +140,7 @@
                 </li>
                 <li @click="codeLogin()">
                   <a href="#"
-                    ><img
+                  ><img
                       class="image"
                       style="width: 34px"
                       src="~@/assets/images/back.png"
@@ -154,7 +154,7 @@
       </div>
     </div>
   </div>
-</template> 
+</template>
 
 <script>
 import {
@@ -166,8 +166,8 @@ import {
   getEmailUuid,
   emailLogin,
 } from "@/api/login";
-import { setToken } from "@/utils/auth"; //存储token
-import { webSocketInit } from "@/utils/webSocket"; //webSocket
+import {setToken} from "@/utils/auth"; //存储token
+import {webSocketInit} from "@/utils/webSocket"; //webSocket
 export default {
   name: "login",
   data() {
@@ -186,7 +186,7 @@ export default {
         uuid: "",
       },
       //邮箱表单
-      emailForm: { email: "", emailCode: "", emailUuid: "" },
+      emailForm: {email: "", emailCode: "", emailUuid: ""},
       //表单绑定微信验证id
       qrCodeId: "",
       //验证码图片
@@ -197,10 +197,10 @@ export default {
       webSocket: null,
       rules: {
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          {required: true, message: "请输入用户名", trigger: "blur"},
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-        code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
+        password: [{required: true, message: "请输入密码", trigger: "blur"}],
+        code: [{required: true, message: "请输入验证码", trigger: "blur"}],
       },
     };
   },
@@ -239,9 +239,14 @@ export default {
       try {
         const res = await login(ruleForm);
         this.$message.success("登陆成功");
-        console.log(res);
-        setToken(res.data);
-        localStorage.setItem("userRole", "admin1");
+        const role = res.data.loginUser.roleList
+        const roles = role.map((item) => {
+          return item.roleKey
+        })
+        // const l = ["common", "VIP", "manager", "admin"]
+        const roleList = JSON.stringify(roles);
+        setToken(res.data.token);
+        localStorage.setItem("userRole", roleList);
         await this.$router.push({
           path: "/home",
         });
@@ -373,7 +378,7 @@ export default {
 };
 </script>
 
-<style scoped >
+<style scoped>
 * {
   margin: 0;
   padding: 0;
@@ -590,6 +595,7 @@ form input.submit:hover {
   color: var(--white-color);
   box-shadow: none;
 }
+
 /*用STEAM PSN XBOX替换原先APPLE GOOGLE FACEBOOK图标*/
 .options ul li:nth-child(1) a:hover {
   background-color: rgb(103, 105, 107);
@@ -618,10 +624,12 @@ form input.submit:hover {
   display: flex;
   justify-content: space-between;
 }
+
 .codeInput {
   width: 56%;
   line-height: 50px;
 }
+
 .codeImage {
   width: 40%;
   height: 46px;
@@ -632,6 +640,7 @@ form input.submit:hover {
   position: relative;
   height: 284px;
 }
+
 .findPassword {
   position: absolute;
   top: 63px;
@@ -649,6 +658,7 @@ form input.submit:hover {
   position: fixed;
   z-index: 2;
 }
+
 .flexPosition {
   display: flex;
   justify-content: center;
@@ -664,6 +674,7 @@ form input.submit:hover {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .emailCode {
   background-color: #f2f4ff;
   width: 30%;
@@ -677,6 +688,7 @@ form input.submit:hover {
   cursor: pointer;
   border-left: 1px solid #dadcdf;
 }
+
 .emailCode:hover {
   background-color: #ccd3de;
 }
