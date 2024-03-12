@@ -23,7 +23,7 @@
       <div class="container">
         <div class="login">
           <div class="hero">
-            <h1>intellijocean<br/>Hello</h1>
+            <h1>Intellijocean<br/>Hello</h1>
             <!-- <p>如果你没有账号<br />可以<a href="#">点击这里</a>进行注册.</p> -->
             <p>
               Every encounter is a collision of souls,<br/>

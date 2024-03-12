@@ -1,7 +1,6 @@
 import Vue from 'vue'
 // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
-let wsUrl = "wss://sparc-fusion.hqh.wiki/wx/";
-// let wsUrl = "ws://127.0.0.1:8000/wx/";
+let wsUrl = "wss://backend.intellijocean.cn/api/wx/";
 let websocket
 export const webSocketInit = (wxScanUuid) => {
     websocket = new WebSocket(wsUrl + wxScanUuid)
