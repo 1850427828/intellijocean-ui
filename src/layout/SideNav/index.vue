@@ -43,7 +43,7 @@
           <el-submenu index="/interfaceManagement">
             <template slot="title">
               <i class="el-icon-suitcase-1"></i>
-              <span>开放Api管理</span>
+              <span>开放API管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/interfaceManagement/apiMessage">

@@ -144,6 +144,26 @@ const router = new VueRouter({
             ]
         },
         {
+            path: "/apiShow",
+            hidden: true,
+            component: () => import("@/layout"),
+            redirect: '/apiOnlineCall',
+            children: [
+                {
+                    path: "/apiShow",
+                    component: () => import("@/page/APIOnlineCall/APIShow"),
+                    name: '/apiShow',
+                    meta: {
+                        title: "API在线调用展示",
+                        requiresAuth: true, //登录权限
+                        permissions: ['admin'],
+                        activeMenu: '/apiOnlineCall',
+                        altActiveMenu: '/interfaceManagement/apiMessage' // 备用菜单项
+                    }
+                }
+            ]
+        },
+        {
             path: "/codeGeneration",
             hidden: true,
             component: () => import("@/layout"),
