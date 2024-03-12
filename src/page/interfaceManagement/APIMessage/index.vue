@@ -11,6 +11,12 @@
           <el-option label="POST" value="post"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="API接口类型">
+        <el-select v-model="searchForm.type" placeholder="请选择类型" clearable>
+          <el-option label="普通" value="11"></el-option>
+          <el-option label="付费" value="21"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button
             size="medium"
@@ -87,8 +93,8 @@
           </template>
         </el-table-column>
         <el-table-column
-            prop="createTime"
-            label="创建时间"
+            prop="responseHeader"
+            label="响应格式"
             min-width="140"
         ></el-table-column>
         <el-table-column prop="status" label="下线 / 发布" min-width="80">
@@ -96,8 +102,8 @@
             <div @click="publishAPI(scope.row)">
               <el-switch
                   v-model="scope.row.status"
-                  :active-value="'0'"
-                  :inactive-value="'1'"
+                  :active-value="'1'"
+                  :inactive-value="'2'"
               ></el-switch>
             </div>
           </template>
@@ -145,10 +151,13 @@
         <el-form-item label="URL" prop="url">
           <el-input v-model="addForm.url" placeholder="例：/api/queryIpAddress"></el-input>
         </el-form-item>
-        <el-form-item label="请求头" prop="requestHeader">
+        <el-form-item label="请求参数示例" prop="requestHeader">
+          <el-input v-model="addForm.requestParams" placeholder="例：cityName='北京'"></el-input>
+        </el-form-item>
+        <el-form-item label="请求参数类型" prop="requestHeader">
           <el-input v-model="addForm.requestHeader" placeholder="例：application/json"></el-input>
         </el-form-item>
-        <el-form-item label="响应头" prop="responseHeader">
+        <el-form-item label="响应结果类型" prop="responseHeader">
           <el-input v-model="addForm.responseHeader" placeholder="例：application/json"></el-input>
         </el-form-item>
 
@@ -268,7 +277,9 @@ export default {
       //修改弹框是否展示
       updateFormVisible: false,
       //修改表单数据
-      updateForm: {},
+      updateForm: {
+
+      },
       //添加表单数据
       addForm: {
         name: "天气",
@@ -278,6 +289,7 @@ export default {
         url: "/api/address",
         type: "11",
         method: "get",
+        requestParams:"cityName='北京'",
         requestHeader: "application/json",
         responseHeader: "application/json",
       },
@@ -343,6 +355,7 @@ export default {
 
     //开放API新增按钮
     addAPIButton(addForm) {
+      addForm
       // this.$refs[addForm].clearValidate()
       this.addFormVisible = true
     },
@@ -390,14 +403,16 @@ export default {
 
     //表格修改按钮————保存按钮
     async updateAPI() {
+
       const res = await updateAPI(this.updateForm)
       console.log(res)
+
       this.$message.success("成功");
     },
 
     //表格删除按钮
     async deleteAPI(row) {
-      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该接口, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

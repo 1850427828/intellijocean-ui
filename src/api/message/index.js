@@ -22,6 +22,12 @@ export const updateUserInfo = (data) => service({
     data: data,
 });
 
+export const updateUserStatus = (data) => service({
+    url: 'user/changeStatus',
+    method: "post",
+    data: data,
+});
+
 export const deletesUserInfo = (data) => service({
     url: 'user/deletes',
     method: "post",

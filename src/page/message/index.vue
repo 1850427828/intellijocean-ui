@@ -189,6 +189,7 @@ import {
   getAllData,
   deletesUserInfo,
   updateUserInfo,
+  updateUserStatus,
   addUserInfo,
   exportUserData
 } from "@/api/message";
@@ -317,7 +318,7 @@ export default {
     async deleteList() {
       const data = this.selectedRows
       const res = await deletesUserInfo(data);
-      if (res.code == 200) {
+      if (res.code === 200) {
         this.getTableData();
         this.$message.success("删除成功");
         return;
@@ -339,7 +340,7 @@ export default {
     },
     async editSubmit() {
       const res = await updateUserInfo(this.updateForm)
-      if (res.code != 200) {
+      if (res.code !== 200) {
         this.$message.error("修改失败");
         return;
       }
@@ -354,13 +355,17 @@ export default {
     async changeStatus(row) {
       console.log(row.status)
       var text = "操作成功"
-      if (row.status == 0) {
+      if (row.status === 0) {
         text = "启用成功"
       } else if (row.status == 1) {
         text = "禁用成功"
       }
-      const res = await updateUserInfo(row)
-      if (res.code == 200) {
+     const data={
+        "id":row.id,
+       "status":row.status
+     }
+      const res = await updateUserStatus(data)
+      if (res.code === 200) {
         this.$message.success(text);
       }
     },
@@ -382,7 +387,7 @@ export default {
     },
     async addSubmit() {
       const res = await addUserInfo(this.addForm)
-      if (res.code != 200) {
+      if (res.code !== 200) {
         this.$message.error("添加失败");
         return;
       }
