@@ -1,17 +1,11 @@
 <template>
   <div>
     <div class="echart1"></div>
-    <CodeEditor></CodeEditor>
   </div>
 </template>
 
 <script>
-import CodeEditor from "@/components/CodeEditor/index.vue";
-
 export default {
-  components:{
-    CodeEditor
-  },
   name: "home",
   data() {
     return {};

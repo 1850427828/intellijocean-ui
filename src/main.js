@@ -8,17 +8,19 @@ import store from "@/store"
 import VueParticles from 'vue-particles' //粒子特效
 import * as echarts from 'echarts'   //echarts图表
 import uploader from 'vue-simple-uploader' // 分片上传
-
-import CodeEditor from 'bin-code-editor';
-Vue.use(CodeEditor);
-
-
+import CodeEditor from 'bin-code-editor'; //代码编辑器
+import less from 'less'
+ 
+ 
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/base.css';
 
 Vue.use(ElementUI);
 Vue.use(VueParticles)
 Vue.use(uploader)
+Vue.use(CodeEditor);
+Vue.use(less)
+
 Vue.prototype.$echarts = echarts;
 
 
