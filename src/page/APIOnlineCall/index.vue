@@ -11,10 +11,13 @@
           <el-tooltip :content="item.name" placement="left-start">
             <span class="tooltip text">{{ item.name }}</span>
           </el-tooltip>
-          <el-button
+          <!-- <el-button
             @click="onlineCall(item)"
             style="float: right; padding: 3px 0"
             type="text"
+            >在线调试</el-button
+          > -->
+          <el-button type="success" round @click="onlineCall(item)"
             >在线调试</el-button
           >
         </div>
@@ -153,6 +156,11 @@ export default {
   text-overflow: ellipsis;
   font-family: Lato;
   /* font-family: Cursive; */
+}
+
+.clearfix {
+  display: flex;
+  justify-content: space-between;
 }
 
 .text {
