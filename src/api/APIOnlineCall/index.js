@@ -1,6 +1,6 @@
 import service from "@/utils/request";
 
-//分页查询
+//分页查询API
 export const getAllData = (params, data) => service({
     url: '/ApiInfo/selectPage',
     method: "post",
@@ -8,30 +8,11 @@ export const getAllData = (params, data) => service({
     data: data,
 });
 
-//下线api开放接口
-export const publishAPI = (params) => service({
-    url: '/ApiInfo/offline',
+//发送调用数据
+export const getResult = (params, data) => service({
+    url: '/ApiInfo/invoke',
     method: "post",
     params: params,
+    data: data
 });
 
-//添加api开放接口信息
-export const addAPI = (data) => service({
-    url: '/ApiInfo/add',
-    method: "post",
-    data: data,
-});
-
-//删除api开放接口信息
-export const deleteAPI = (data) => service({
-    url: '/ApiInfo/deleteByIds',
-    method: "post",
-    data: data,
-});
-
-//修改api开放接口信息
-export const updateAPI = (data) => service({
-    url: '/ApiInfo/updateById',
-    method: "post",
-    data: data,
-});
