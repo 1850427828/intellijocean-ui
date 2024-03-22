@@ -30,7 +30,9 @@ export default {
   },
   watch: {
     value(newValue) {
+      console.log(this.jsonEditor.getValue());
       if (newValue !== this.jsonEditor.getValue()) {
+        console.log(newValue);
         // this.jsonEditor.setValue(JSON.stringify(newValue, null, 2));
         this.jsonEditor.setValue(newValue);
       }
@@ -60,12 +62,11 @@ export default {
       },
       readOnly: this.readOnly,
     });
-
     this.jsonEditor.setValue(JSON.stringify(this.value, null, 2));
     this.jsonEditor.on("change", (cm) => {
       this.$emit("changed", cm.getValue());
-      // this.$emit("input", cm.getValue());
     });
+
   },
   methods: {
     //刷新视图
@@ -104,5 +105,4 @@ export default {
 .json-editor >>> .CodeMirror-selected {
   background-color: #0337a1 !important;
 }
-
 </style>

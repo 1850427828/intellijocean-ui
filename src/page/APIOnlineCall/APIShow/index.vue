@@ -63,11 +63,11 @@
                   <CodeEditor
                     @changed="handleJsonEditor"
                     ref="jsonEditor"
-                    :value="{}"
+                    v-model="jsonData"
                     :readOnly="false"
                   ></CodeEditor>
                 </el-tab-pane>
-                <el-tab-pane label="Header">{{ jsonStr }}</el-tab-pane>
+                <el-tab-pane label="Header">{{ jsonData }}</el-tab-pane>
               </el-tabs>
             </div>
           </div>
@@ -128,23 +128,6 @@ export default {
       showResult: true,
       //返回的结果数据
       resultData: {},
-      //传递给代码编辑器组件的数据
-      jsonStr: {
-        1: "2",
-        2: "2",
-        3: "2",
-        4: "2",
-        5: "2",
-        6: "2",
-        7: "2",
-        13: "3",
-        23: "3",
-        33: "3",
-        43: "3",
-        53: "3",
-        63: "3",
-        73: "3",
-      },
       //传递给伸缩框组件数据
       resizeConf: {
         height: 204, // 初始高度
@@ -162,8 +145,6 @@ export default {
     //发送按钮
     async sendData() {
       this.editorTableData();
-      console.log(this.dataList.id);
-      // console.log(this.jsonData);
       const params = { id: this.dataList.id };
       const data = this.paramsData;
       const res = await getResult(params, data);
@@ -172,11 +153,7 @@ export default {
       let formattedJsonString = JSON.stringify(JSON.parse(res.data), null, 2);
       // 去除无用字符（例如转义字符）
       formattedJsonString = formattedJsonString.replace(/\\n|\\r/g, "");
-      res.data=formattedJsonString
-      console.log(res.data)
-      this.resultData = res.data;
-
-
+      this.resultData = formattedJsonString;
       this.$message.success("API调用成功");
       if (this.resizeConf.height === 40) {
         this.resizeConf.height = 200;
@@ -189,12 +166,10 @@ export default {
     editorTableData() {
       this.tableData.forEach((item, index) => {
         if (index === this.tableData.length - 1) {
-          console.log(index);
         } else {
           this.paramsData[item.name] = item.value;
         }
       });
-      console.log(this.paramsData);
     },
 
     //点击tab栏触发事件
